@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.title('My first streamlit app')
-st.logo('image/password.png')
+st.logo('image/Rice.png')
 table_markdown = '''
 A Table:
 
@@ -12,3 +12,4 @@ A Table:
 '''
 
 st.write(table_markdown)
+st.image('image/juice.svg')
