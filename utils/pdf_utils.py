@@ -12,6 +12,6 @@ def read_uploaded_and_split_pdf(uploaded_file):
 	text_splitter = RecursiveCharacterTextSplitter(
 		chunk_size=1000,
 		chunk_overlap=50,
-		separators=["\n", "。", "！", "？", "，", "、", ""]
+		separators=["\n", "。", ".", "！", "!", "？", "?", "，", ",", "、", ""]
 	)
 	return text_splitter.split_documents(docs)

@@ -4,7 +4,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 
-from utils.PDFUtil import read_uploaded_and_split_pdf
+from utils.pdf_utils import read_uploaded_and_split_pdf
 
 
 def get_chat_memory_response(prompt, memory, openai_api_key):

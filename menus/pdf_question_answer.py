@@ -3,8 +3,8 @@ import os
 import streamlit as st
 from langchain.memory import ConversationBufferMemory
 
-from utils.AIUtils import pdf_qa_agent
-from utils.messageUtils import AIMessage, HumanMessage
+from utils.ai_utils import pdf_qa_agent
+from utils.message_utils import ai_message, human_message
 
 st.title('Upload PDF and ask questions')
 
@@ -20,7 +20,7 @@ with st.sidebar:
 	if not api_key:
 		st.warning("Please input your api key")
 
-AIMessage("Hello, I'm your AI assistant. Please upload a PDF, I can find answers from it.")
+ai_message("Hello, I'm your AI assistant. Please upload a PDF, I can find answers from it.")
 
 query = st.chat_input()
 if 'chat_message_pdf' not in st.session_state:
@@ -29,21 +29,22 @@ if 'chat_message_pdf' not in st.session_state:
 														   output_key="answer")
 
 for message in st.session_state.chat_message_pdf:
-	HumanMessage(message['query'])
-	AIMessage(message['answer'])
+	human_message(message['query'])
+	ai_message(message['answer'])
 
 if query:
+	human_message(query)
 	if not api_key:
 		st.warning("Please input your api key")
 		st.stop()
 	if not uploaded_file:
 		st.warning("Please upload a PDF file")
-	HumanMessage(query)
+		st.stop()
 	with st.spinner('AI is thinking, please wait...'):
 		# get Answer here
 		answer = pdf_qa_agent(question=query,
 							  memory=st.session_state.memory_pdf,
 							  openai_api_key=api_key,
 							  uploaded_file=uploaded_file)
-		AIMessage(answer)
+		ai_message(answer)
 		st.session_state.chat_message_pdf.append({'query': query, 'answer': answer})
