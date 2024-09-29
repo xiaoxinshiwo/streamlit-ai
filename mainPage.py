@@ -1,14 +1,16 @@
 import streamlit as st
 
 pages = {
-	"Chat": [
-		st.Page("pages/chat_without_memory.py", title="Chat without memory"),
-		st.Page("pages/chat_with_memory.py", title="Chat with memory"),
+	"CHAT": [
+		st.Page("menus/chat_without_memory.py", title="Chat without memory"),
+		st.Page("menus/chat_with_memory.py", title="Chat with memory"),
 	],
-	# "tools": [
-	#     st.Page("learn.py", title="Learn about us"),
-	#     st.Page("trial.py", title="Try it out"),
-	# ],
+	"RAG": [
+		st.Page("menus/pdf_question_answer.py", title="Upload PDF and ask questions"),
+	],
+	"AGENT": [
+		st.Page("menus/agent_tools.py", title="Tools"),
+	],
 }
 
 st.set_page_config(
