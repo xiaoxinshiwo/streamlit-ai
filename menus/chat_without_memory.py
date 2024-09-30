@@ -1,17 +1,11 @@
-import os
-
 import streamlit as st
 
 from utils.ai_utils import get_chat_response
-from utils.message_utils import ai_message, human_message
+from utils.streamlit_utils import ai_message, human_message, openai_key_side_bar
 
+st.title('💬Chat without memory')
 
-st.title('Chat without memory')
-
-with st.sidebar:
-	api_key = st.text_input("Please input your api key", type="password", value=os.getenv("OPENAI_API_KEY"))
-	if not api_key:
-		st.warning("Please input your api key")
+api_key = openai_key_side_bar()
 
 ai_message("Hello, I'm your AI assistant. How Can I help?")
 

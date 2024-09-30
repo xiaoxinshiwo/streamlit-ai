@@ -9,6 +9,8 @@ pages = {
 		st.Page("menus/pdf_question_answer.py", title="Upload PDF and ask questions"),
 	],
 	"AGENT": [
+		st.Page("menus/python_executor.py", title="Python Tools"),
+		st.Page("menus/calculate_character_number.py", title="Calculate character number"),
 		st.Page("menus/agent_tools.py", title="Tools"),
 	],
 }

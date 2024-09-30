@@ -4,7 +4,7 @@ import streamlit as st
 from langchain.memory import ConversationBufferMemory
 
 from utils.ai_utils import pdf_qa_agent
-from utils.message_utils import ai_message, human_message
+from utils.streamlit_utils import ai_message, human_message
 
 st.title('Upload PDF and ask questions')
 
