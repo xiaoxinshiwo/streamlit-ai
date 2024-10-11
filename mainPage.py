@@ -7,6 +7,7 @@ pages = {
 	],
 	"RAG": [
 		st.Page("menus/pdf_question_answer.py", title="Upload PDF and ask questions"),
+		st.Page("menus/ppm_help_document.py", title="Get help for PPM"),
 	],
 	"AGENT": [
 		st.Page("menus/python_executor.py", title="Python Tools"),

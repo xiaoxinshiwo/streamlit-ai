@@ -22,7 +22,6 @@ def get_strawberry_answer(question, memory, api_key):
 		tools=tools,
 		prompt=prompt
 	)
-
 	agent_executor = AgentExecutor.from_agent_and_tools(
 		agent=agent, tools=tools, memory=memory, verbose=True, handle_parsing_errors=True
 	)

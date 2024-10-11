@@ -10,6 +10,7 @@ from utils.pdf_utils import read_uploaded_and_split_pdf
 def get_chat_memory_response(prompt, memory, openai_api_key):
 	model = ChatOpenAI(model="gpt-4o-mini", openai_api_key=openai_api_key)
 	chain = ConversationChain(llm=model, memory=memory)
+	print('memory ====', memory.load_memory_variables({}))
 
 	response = chain.invoke({"input": prompt})
 	return response["response"]
@@ -24,7 +25,7 @@ def get_chat_response(prompt, openai_api_key):
 
 
 def pdf_qa_agent(openai_api_key, memory, uploaded_file, question):
-	model = ChatOpenAI(model="gpt-4o-mini", openai_api_key=openai_api_key)
+	model = ChatOpenAI(model="gpt-4o-mini", openai_api_key=openai_api_key, temperature=0)
 	embeddings_model = OpenAIEmbeddings()
 	texts = read_uploaded_and_split_pdf(uploaded_file)
 	db = FAISS.from_documents(texts, embeddings_model)
