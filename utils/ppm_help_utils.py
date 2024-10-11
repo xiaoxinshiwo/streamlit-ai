@@ -90,7 +90,7 @@ class PPMHelper:
 			If you can't find the answer, you can return the url:{self.page_url} for users to refer to.
 			Question is:{self.question}
 		'''
-		return self.embedding_llm_invoke(prompt, self.memory, retriever)
+		return self.embedding_llm_invoke(prompt, self.memory, retriever, 'map_reduce')
 
 	def key_word_search(self):
 		url = 'https://api.cludo.com/api/v3/697/8942/search'
@@ -147,12 +147,13 @@ class PPMHelper:
 		 '''
 		self.page_url = self.embedding_llm_invoke(prompt, self.memory, retriever)
 
-	def embedding_llm_invoke(self, prompt, memory, retriever):
+	def embedding_llm_invoke(self, prompt, memory, retriever, chain_type='stuff'):
 		model = ChatOpenAI(model="gpt-4o-mini", openai_api_key=self.api_key, temperature=0)
 		qa = ConversationalRetrievalChain.from_llm(
 			llm=model,
 			retriever=retriever,
-			memory=memory
+			memory=memory,
+			chain_type = chain_type
 		)
 		response = qa.invoke({"chat_history": memory, "question": prompt})
 		return response["answer"]
