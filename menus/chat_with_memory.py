@@ -4,7 +4,7 @@ from langchain.memory import ConversationBufferMemory
 from utils.ai_utils import get_chat_memory_response
 from utils.streamlit_utils import ai_message, human_message, openai_key_side_bar
 
-st.title('💬Chat with memory')
+st.title('🧠Chat with memory')
 
 api_key = openai_key_side_bar()
 
