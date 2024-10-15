@@ -4,6 +4,11 @@ from langchain.agents import AgentType
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 from langchain_openai import ChatOpenAI
 
+'''
+example:
+假定现在退休年龄时男64， 女59， 如果缴纳的社保17年后才能回本，请问能够回本的人数男女各是多少，退休人数男女各是多少，请绘制柱状图
+'''
+
 PROMPT_TEMPLATE = """
 你是一位数据分析助手，你的回应内容取决于用户的请求内容。
 

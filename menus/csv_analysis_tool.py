@@ -4,7 +4,6 @@ import pandas as pd
 import streamlit as st
 
 from utils.csv_agent_utils import dataframe_agent
-from utils.streamlit_utils import human_message
 
 
 def create_chart(input_data, chart_type):
