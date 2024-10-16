@@ -18,10 +18,8 @@ def get_chat_memory_response(prompt, memory, openai_api_key):
 
 def get_chat_response(prompt, openai_api_key):
 	model = ChatOpenAI(model="gpt-4o-mini", openai_api_key=openai_api_key)
-	chain = ConversationChain(llm=model)
-
-	response = chain.invoke({"input": prompt})
-	return response["response"]
+	response = model.invoke(prompt)
+	return response.content
 
 
 def pdf_qa_agent(openai_api_key, memory, uploaded_file, question):

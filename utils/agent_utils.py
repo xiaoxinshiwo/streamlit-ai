@@ -9,6 +9,7 @@ from langchain_openai import ChatOpenAI
 from langsmith import Client
 
 from utils.character_number_tool import CharacterNumber
+from utils.email_util import EmailSender
 from utils.word_number_tool import WordNumber
 
 
@@ -48,6 +49,7 @@ def get_tool_collection_answer(question, memory, api_key):
 	tools = [
 		CharacterNumber(),
 		WordNumber(),
+		EmailSender(),
 		Tool(
 			name='Python execution tool',
 			description="When you request to deal with python code execution, you can use this tool",
