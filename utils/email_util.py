@@ -39,7 +39,7 @@ class EmailSender(BaseTool):
 		login_user = "joezhang7788@126.com"
 
 		invalid_password = "INVALID_PASSWORD"
-		login_password = os.getenv("EMAIL_LOGIN_TOKEN_126", "YQPaq9GP2Pa6Jq2b")  # expires in 180 days
+		login_password = os.getenv("EMAIL_LOGIN_TOKEN_126", invalid_password)  # expires in 180 days
 		if login_password == invalid_password:
 			raise InvalidEmailPasswordException
 		try:
