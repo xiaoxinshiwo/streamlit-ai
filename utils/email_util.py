@@ -27,7 +27,7 @@ class EmailSender(BaseTool):
 	description: str = (
 		"Use this tool when you are asked to send an email"
 		"{'subject':email subject, string type parameter}"
-		"{'send_to':email address to send to, string type parameter, if it's a address list join them with comma}"
+		"{'send_to':email address to send to, string type parameter}"
 		"{'from_name':user name who send the email, string type parameter}"
 		"{'content':email body, string type parameter}"
 	)
@@ -70,7 +70,7 @@ class EmailSender(BaseTool):
 if __name__ == '__main__':
 	# 调用方法示例
 	subject = "Test Email2"
-	send_to = ["yzhang7@opentext.com"]
+	send_to = "woxiaoxinxin@gmail.com"
 	content = "This is a test email sent from Python."
 
-	EmailSender()._run(subject, send_to, content)
+	print(EmailSender()._run(subject, send_to, 'Li lei', content))

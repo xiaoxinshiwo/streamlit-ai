@@ -1,3 +1,5 @@
+import os
+
 import streamlit as st
 
 pages = {
@@ -25,3 +27,7 @@ st.set_page_config(
 
 pg = st.navigation(pages)
 pg.run()
+
+# set global proxy
+os.environ['http_proxy'] = os.getenv("SYSTEM_PROXY", "http://web-proxy.us.softwaregrp.net:8080")
+os.environ['https_proxy'] = os.getenv("SYSTEM_PROXY", "http://web-proxy.us.softwaregrp.net:8080")
