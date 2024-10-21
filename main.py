@@ -30,5 +30,5 @@ pg.run()
 proxy = os.getenv("SYSTEM_PROXY")
 if proxy:
 	# set global proxy
-	os.environ['http_proxy'] = os.getenv("SYSTEM_PROXY")
-	os.environ['https_proxy'] = os.getenv("SYSTEM_PROXY")
+	os.environ['http_proxy'] = proxy
+	os.environ['https_proxy'] = proxy
