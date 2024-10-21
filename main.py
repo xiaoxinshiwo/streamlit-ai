@@ -27,7 +27,8 @@ st.set_page_config(
 
 pg = st.navigation(pages)
 pg.run()
-
-# set global proxy
-os.environ['http_proxy'] = os.getenv("SYSTEM_PROXY", "http://web-proxy.us.softwaregrp.net:8080")
-os.environ['https_proxy'] = os.getenv("SYSTEM_PROXY", "http://web-proxy.us.softwaregrp.net:8080")
+proxy = os.getenv("SYSTEM_PROXY")
+if proxy:
+	# set global proxy
+	os.environ['http_proxy'] = os.getenv("SYSTEM_PROXY")
+	os.environ['https_proxy'] = os.getenv("SYSTEM_PROXY")
