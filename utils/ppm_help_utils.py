@@ -82,7 +82,7 @@ class PPMHelper:
 	# get final answer
 	def final_answer(self):
 		docs = recursive_load(self.page_url)
-		embeddings_model = OpenAIEmbeddings()
+		embeddings_model = OpenAIEmbeddings(api_key=self.api_key)
 		db = FAISS.from_documents(documents=docs, embedding=embeddings_model)
 		retriever = db.as_retriever()
 		prompt = f'''
@@ -137,7 +137,7 @@ class PPMHelper:
 			return []
 
 	def get_matched_link(self, search_result):
-		embeddings_model = OpenAIEmbeddings()
+		embeddings_model = OpenAIEmbeddings(api_key=self.api_key)
 		db = FAISS.from_texts(texts=search_result, embedding=embeddings_model)
 		retriever = db.as_retriever()
 		prompt = f'''Please find the perfect matched item according to the context.
@@ -153,7 +153,7 @@ class PPMHelper:
 			llm=model,
 			retriever=retriever,
 			memory=memory,
-			chain_type = chain_type
+			chain_type=chain_type
 		)
 		response = qa.invoke({"chat_history": memory, "question": prompt})
 		return response["answer"]

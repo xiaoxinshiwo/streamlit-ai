@@ -24,7 +24,7 @@ def get_chat_response(prompt, openai_api_key):
 
 def pdf_qa_agent(openai_api_key, memory, uploaded_file, question):
 	model = ChatOpenAI(model="gpt-4o-mini", openai_api_key=openai_api_key, temperature=0)
-	embeddings_model = OpenAIEmbeddings()
+	embeddings_model = OpenAIEmbeddings(api_key=openai_api_key)
 	texts = read_uploaded_and_split_pdf(uploaded_file)
 	db = FAISS.from_documents(texts, embeddings_model)
 	retriever = db.as_retriever()
