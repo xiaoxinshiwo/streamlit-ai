@@ -12,6 +12,7 @@ pages = {
 		st.Page("menus/ppm_help_document.py", title="Get help for PPM"),
 	],
 	"AGENT": [
+		st.Page("menus/ppm_automation.py", title="PPM UI Automation"),
 		st.Page("menus/python_executor.py", title="Python Tools"),
 		st.Page("menus/csv_analysis_tool.py", title="CSV Tools"),
 		st.Page("menus/calculate_character_number.py", title="Calculate character number"),
