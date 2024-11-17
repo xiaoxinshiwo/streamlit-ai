@@ -100,7 +100,11 @@ def write_ppm_automation(test_context, api_key):
 		agent=agent, tools=tools, verbose=True, handle_parsing_errors=True
 	)
 	response = agent_executor.invoke({"input": automation_prompt.prompt + test_context})
-	return response['output']
+	markdown_resp = f"""
+	```typescript
+	{response['output']}
+	"""
+	return markdown_resp
 
 
 if __name__ == '__main__':
