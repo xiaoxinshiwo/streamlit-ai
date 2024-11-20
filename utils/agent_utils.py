@@ -8,6 +8,7 @@ from langchain_experimental.utilities import PythonREPL
 from langchain_openai import ChatOpenAI
 from langsmith import Client
 
+from utils.ai_utils import get_chat_response
 from utils.automation import automation_prompt
 from utils.automation.request.requests import *
 from utils.character_number_tool import CharacterNumber
@@ -88,27 +89,25 @@ def write_ppm_automation(test_context, api_key):
 		SelectDropdownOption(),
 		SelectRadio(),
 		FillInput(),
-		# FinalAnswer(),
+		SelectSingleAcl(),
 	]
 	# client = Client(api_key=os.getenv(
 	# 	'LANGCHAIN_API_KEY'))  # LANGCHAIN_API_KEY=xxx, LANGCHAIN_TRACING_V2 = true https://docs.smith.langchain.com/
 	#
 	# prompt = client.pull_prompt("hwchase17/react-json")
-	prompt = automation_prompt.agent_prompt
+	agent_prompt = automation_prompt.agent_prompt
 
 	agent = create_structured_chat_agent(
 		llm=model,
 		tools=tools,
-		prompt=prompt
+		prompt=agent_prompt
 	)
 	agent_executor = AgentExecutor.from_agent_and_tools(
-		agent=agent, tools=tools, verbose=True, handle_parsing_errors=True, early_stopping_method="generate"
+		agent=agent, tools=tools, verbose=True, handle_parsing_errors=True, max_iterations=150
 	)
 	response = agent_executor.invoke({"input": automation_prompt.auto_prompt + test_context})
-	markdown_resp = f"""
-	```typescript
-	{response['output']}
-	"""
+	# format response as typescript Markdown text
+	markdown_resp = get_chat_response(automation_prompt.format_prompt + response['output'], api_key)
 	return markdown_resp
 
 
@@ -120,13 +119,17 @@ if __name__ == '__main__':
 		os.environ['https_proxy'] = proxy
 	test_context = """
 	1. 登录
-	2. 创建一个类型为'Bug'的请求
-	3. 选择id=REQ.DEPARTMENT_CODE的下拉框的选项Finance
-	4. 选择id=REQ.PRIORITY_CODE的下拉框的选项Low
-	5. 填充id=REQ.DESCRIPTION的文本框的值为'This is a debug request type'
-	6. 点击id=REQD.P.P_REPRODUCIBLE_Y的radio button
-	7. 添加note, 内容为：This is a testing request
-	8. 保存请求
+	2. 创建一个类型为 'Bug' 的请求
+	3. 选择 id=WORKFLOW_IDAUTOCOMP_IMG 的 single ACL，值为 Auto_DM_Risk_Prosess
+	4. 选择 id=REQ.DEPARTMENT_CODE 的下拉框的选项 Finance
+	5. 选择 id=REQ.PRIORITY_CODE 的下拉框的选项 Low
+	6. 选择 id=REQD.P.MODULE 的下拉框的选项 Module A
+	7. 选择 id=REQD.P.IMPACT 的下拉框的选项 Severe
+	8. 选择 id=REQD.P.PLATFORM 的下拉框的选项 Linux
+	9. 填充 id=REQ.DESCRIPTION 的文本框的值为 'This is a debug request type'
+	10. 点击 id=REQD.P.REPRO_Y 的 radio button
+	11. 添加 note，内容为：This is a testing request
+	12. 保存请求
 	"""
 	resp = write_ppm_automation(test_context, os.getenv('OPENAI_API_KEY'))
 	print(resp)

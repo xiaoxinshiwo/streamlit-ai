@@ -20,5 +20,5 @@ if test_context:
 	with st.spinner('AI is thinking, please wait...'):
 		# get Answer here
 		test_case = agent_utils.write_ppm_automation(test_context, api_key)
-		print('test_case===', test_case)
+		print('test_case===\n', test_case)
 		st.markdown(test_case)

@@ -23,6 +23,16 @@ class SaveRequest(BaseTool):
 		return "await Requests.saveRequest(page);"
 
 
+class SaveRequest(BaseTool):
+	name: str = "Tool to generate code to submit a request"
+	description: str = (
+		'Use this tool when you are asked to submit a request, need to import dependency: import {Requests} from "@lib/Requests";'
+	)
+
+	def _run(self):
+		return "await Requests.submitRequest(page);"
+
+
 class CreateRequest(BaseTool):
 	name: str = "Tool to generate code to c creates a request of a specific type"
 	description: str = (
@@ -112,7 +122,7 @@ class SelectRadio(BaseTool):
 class FillInput(BaseTool):
 	name: str = "Tool to generate code to fill value into text box"
 	description: str = (
-		'Use this tool when you are asked to to fill value into text box'
+		'Use this tool when you are asked to fill value into text box'
 		"'selector': the identity to locate a text box, string type parameter"
 		"'value': value of a text box, string type parameter"
 	)
@@ -121,3 +131,17 @@ class FillInput(BaseTool):
 		selector = get_clean_val(selector)
 		value = get_clean_val(value)
 		return f'await page.fill("{selector}", "{value}");'
+
+
+class SelectSingleAcl(BaseTool):
+	name: str = "Tool to generate code to select a single ACL"
+	description: str = (
+		'Use this tool when you are asked to select a single ACL'
+		"'selector': the identity to locate a single ACL, string type parameter"
+		"'value': value of single ACL, string type parameter"
+	)
+
+	def _run(self, selector, value):
+		selector = get_clean_val(selector)
+		value = get_clean_val(value)
+		return f'await Ctrls.selectSingleAcl(page, "{selector}", "{value}");'
