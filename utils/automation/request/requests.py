@@ -27,7 +27,7 @@ class CreateRequest(BaseTool):
 	name: str = "Tool to generate code to c creates a request of a specific type"
 	description: str = (
 		'Use this tool when you are asked to save a request  of a specific type, need to import dependency: import {Requests} from "@lib/Requests";'
-		"{'request_type': the type of a request, string type parameter}"
+		"'request_type': the type of a request, string type parameter"
 	)
 
 	def _run(self, request_type):
@@ -51,7 +51,7 @@ class AddNote(BaseTool):
 	name: str = "Tool to generate code to add note to a request"
 	description: str = (
 		'Use this tool when you are asked to add note to a request, need to import dependency: import {Requests} from "@lib/Requests";'
-		"{'note': the content, string type parameter}"
+		"'note': the content, string type parameter"
 	)
 
 	def _run(self, note):
@@ -81,3 +81,43 @@ class ClickButton(BaseTool):
 	def _run(self, selector):
 		selector = get_clean_val(selector)
 		return f'await page.click("{selector}");'
+
+
+class SelectDropdownOption(BaseTool):
+	name: str = "Tool to generate code to select a dropdown option"
+	description: str = (
+		'Use this tool when you are asked to to select a dropdown option,need to import dependency: import {Ctrls} from "@lib/Ctrls";'
+		"'selector': the identity to locate a dropdown, string type parameter"
+		"'value': the value of a option to be selected, string type parameter"
+	)
+
+	def _run(self, selector, value):
+		selector = get_clean_val(selector)
+		value = get_clean_val(selector)
+		return f'await Ctrls.selectDropdownOption(page,{selector},{value} );'
+
+
+class SelectRadio(BaseTool):
+	name: str = "Tool to generate code to click a radio button"
+	description: str = (
+		'Use this tool when you are asked to to click a radio button'
+		"'selector': the identity to locate a dropdown, string type parameter"
+	)
+
+	def _run(self, selector):
+		selector = get_clean_val(selector)
+		return f'await page.click("{selector}");'
+
+
+class FillInput(BaseTool):
+	name: str = "Tool to generate code to fill value into text box"
+	description: str = (
+		'Use this tool when you are asked to to fill value into text box'
+		"'selector': the identity to locate a text box, string type parameter"
+		"'value': value of a text box, string type parameter"
+	)
+
+	def _run(self, selector, value):
+		selector = get_clean_val(selector)
+		value = get_clean_val(value)
+		return f'await page.fill("{selector}", "{value}");'

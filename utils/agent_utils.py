@@ -85,11 +85,16 @@ def write_ppm_automation(test_context, api_key):
 		AddNote(),
 		ClickWorkflowAction(),
 		ClickButton(),
+		SelectDropdownOption(),
+		SelectRadio(),
+		FillInput(),
+		# FinalAnswer(),
 	]
-	client = Client(api_key=os.getenv(
-		'LANGCHAIN_API_KEY'))  # LANGCHAIN_API_KEY=xxx, LANGCHAIN_TRACING_V2 = true https://docs.smith.langchain.com/
-
-	prompt = client.pull_prompt("hwchase17/structured-chat-agent")
+	# client = Client(api_key=os.getenv(
+	# 	'LANGCHAIN_API_KEY'))  # LANGCHAIN_API_KEY=xxx, LANGCHAIN_TRACING_V2 = true https://docs.smith.langchain.com/
+	#
+	# prompt = client.pull_prompt("hwchase17/react-json")
+	prompt = automation_prompt.agent_prompt
 
 	agent = create_structured_chat_agent(
 		llm=model,
@@ -97,9 +102,9 @@ def write_ppm_automation(test_context, api_key):
 		prompt=prompt
 	)
 	agent_executor = AgentExecutor.from_agent_and_tools(
-		agent=agent, tools=tools, verbose=True, handle_parsing_errors=True
+		agent=agent, tools=tools, verbose=True, handle_parsing_errors=True, early_stopping_method="generate"
 	)
-	response = agent_executor.invoke({"input": automation_prompt.prompt + test_context})
+	response = agent_executor.invoke({"input": automation_prompt.auto_prompt + test_context})
 	markdown_resp = f"""
 	```typescript
 	{response['output']}
@@ -115,9 +120,13 @@ if __name__ == '__main__':
 		os.environ['https_proxy'] = proxy
 	test_context = """
 	1. 登录
-	2. 创建一个类型为'Bug - Report Currency'的请求
-	3. 添加note, 内容为：This is a testing request
-	4. 保存请求
+	2. 创建一个类型为'Bug'的请求
+	3. 选择id=REQ.DEPARTMENT_CODE的下拉框的选项Finance
+	4. 选择id=REQ.PRIORITY_CODE的下拉框的选项Low
+	5. 填充id=REQ.DESCRIPTION的文本框的值为'This is a debug request type'
+	6. 点击id=REQD.P.P_REPRODUCIBLE_Y的radio button
+	7. 添加note, 内容为：This is a testing request
+	8. 保存请求
 	"""
 	resp = write_ppm_automation(test_context, os.getenv('OPENAI_API_KEY'))
 	print(resp)
