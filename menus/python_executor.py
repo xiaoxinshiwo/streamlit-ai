@@ -1,5 +1,4 @@
 import streamlit as st
-from langchain.memory import ConversationBufferMemory
 
 from utils.agent_utils import python_executor
 from utils.streamlit_utils import openai_key_side_bar
@@ -16,5 +15,5 @@ if button and not question:
 
 if button and question:
 	with st.spinner('AI is thinking, please wait...'):
-		answer = python_executor(api_key=api_key, question=question, memory=None)
+		answer = python_executor(api_key=api_key, question=question)
 		st.write(answer["output"])
