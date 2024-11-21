@@ -4,7 +4,7 @@ from langchain.memory import ConversationBufferMemory
 from utils.agent_utils import get_tool_collection_answer
 from utils.streamlit_utils import ai_message, human_message, openai_key_side_bar
 
-st.title('🛠️Tool Collection')
+st.subheader('🛠️Tool Collection')
 
 api_key = openai_key_side_bar()
 

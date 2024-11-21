@@ -4,7 +4,7 @@ from langchain.memory import ConversationBufferMemory
 from utils.ppm_help_utils import PPMHelper
 from utils.streamlit_utils import ai_message, human_message, openai_key_side_bar
 
-st.title('📚Chat with PPM online document')
+st.subheader('📚Chat with PPM online document')
 
 api_key = openai_key_side_bar()
 

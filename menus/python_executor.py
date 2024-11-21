@@ -3,7 +3,7 @@ import streamlit as st
 from utils.agent_utils import python_executor
 from utils.streamlit_utils import openai_key_side_bar
 
-st.title("💻Python Executor")
+st.subheader("💻Python Executor")
 
 api_key = openai_key_side_bar()
 

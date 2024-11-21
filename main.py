@@ -4,19 +4,19 @@ import streamlit as st
 
 pages = {
 	"CHAT": [
-		st.Page("menus/chat_without_memory.py", title="Chat without memory"),
-		st.Page("menus/chat_with_memory.py", title="Chat with memory"),
+		st.Page("menus/chat_without_memory.py", title="Chat without memory", icon=":material/sms:"),
+		st.Page("menus/chat_with_memory.py", title="Chat with memory", icon=":material/memory:"),
 	],
 	"RAG": [
-		st.Page("menus/pdf_question_answer.py", title="Upload PDF and ask questions"),
-		st.Page("menus/ppm_help_document.py", title="Get help for PPM"),
+		st.Page("menus/pdf_question_answer.py", title="Upload PDF and ask questions", icon=":material/picture_as_pdf:"),
+		st.Page("menus/ppm_help_document.py", title="Get help for PPM", icon=":material/find_in_page:"),
 	],
 	"AGENT": [
-		st.Page("menus/ppm_automation.py", title="PPM UI Automation"),
-		st.Page("menus/python_executor.py", title="Python Tools"),
-		st.Page("menus/csv_analysis_tool.py", title="CSV Tools"),
-		st.Page("menus/calculate_character_number.py", title="Calculate character number"),
-		st.Page("menus/agent_tools.py", title="Tool Collection"),
+		st.Page("menus/ppm_automation.py", title="PPM UI Automation", icon=":material/prescriptions:"),
+		st.Page("menus/python_executor.py", title="Python Tools", icon=":material/computer:"),
+		st.Page("menus/csv_analysis_tool.py", title="CSV Tools", icon=":material/table:"),
+		st.Page("menus/calculate_character_number.py", title="Calculate character number", icon=":material/calculate:"),
+		st.Page("menus/agent_tools.py", title="Tool Collection", icon=":material/home_repair_service:"),
 	],
 }
 

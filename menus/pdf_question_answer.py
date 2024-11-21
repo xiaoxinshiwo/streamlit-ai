@@ -6,7 +6,7 @@ from langchain.memory import ConversationBufferMemory
 from utils.ai_utils import pdf_qa_agent
 from utils.streamlit_utils import ai_message, human_message, openai_key_side_bar
 
-st.title('📖Upload PDF and ask questions')
+st.subheader('📖Upload PDF and ask questions')
 
 with st.expander("RAG(Retrieval augmented generation)"):
 	st.image("image/RAG_diagram.svg")

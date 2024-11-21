@@ -3,7 +3,7 @@ import streamlit as st
 from utils.ai_utils import get_chat_response
 from utils.streamlit_utils import ai_message, human_message, openai_key_side_bar
 
-st.title('💬Chat without memory')
+st.subheader('💬Chat without memory')
 
 api_key = openai_key_side_bar()
 
