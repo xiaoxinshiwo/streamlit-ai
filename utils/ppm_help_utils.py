@@ -5,7 +5,7 @@ Tool for PPM help to retrieve answers from questions
 3. fetch the content from matched url
 4. summarize by LLM
 example:
-	question = 'how to create a request from Create menu?'
+	question = 'how to create a lib from Create menu?'
 	question = 'how to customize PPM menu, and how to delete one?'
 	question = "what's PPM?"
 

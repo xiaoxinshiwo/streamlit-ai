@@ -14,9 +14,9 @@ class Login(BaseTool):
 
 
 class SaveRequest(BaseTool):
-	name: str = "Tool to generate code to save a request"
+	name: str = "Tool to generate code to save a lib"
 	description: str = (
-		'Use this tool when you are asked to save a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to save a lib, need to import dependency: import {Requests} from "@lib/Requests";'
 	)
 
 	def _run(self):
@@ -24,9 +24,9 @@ class SaveRequest(BaseTool):
 
 
 class SubmitRequest(BaseTool):
-	name: str = "Tool to generate code to submit a request"
+	name: str = "Tool to generate code to submit a lib"
 	description: str = (
-		'Use this tool when you are asked to submit a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to submit a lib, need to import dependency: import {Requests} from "@lib/Requests";'
 	)
 
 	def _run(self):
@@ -34,10 +34,10 @@ class SubmitRequest(BaseTool):
 
 
 class CreateRequest(BaseTool):
-	name: str = "Tool to generate code to c creates a request of a specific type"
+	name: str = "Tool to generate code to c creates a lib of a specific type"
 	description: str = (
-		'Use this tool when you are asked to save a request  of a specific type, need to import dependency: import {Requests} from "@lib/Requests";'
-		"'request_type': the type of a request, string type parameter"
+		'Use this tool when you are asked to save a lib  of a specific type, need to import dependency: import {Requests} from "@lib/Requests";'
+		"'request_type': the type of a lib, string type parameter"
 	)
 
 	def _run(self, request_type):
@@ -46,10 +46,10 @@ class CreateRequest(BaseTool):
 
 
 class DeleteRequest(BaseTool):
-	name: str = "Tool to generate code to delete a request"
+	name: str = "Tool to generate code to delete a lib"
 	description: str = (
-		'Use this tool when you are asked to delete a request, need to import dependency: import {Requests} from "@lib/Requests";'
-		"{'request_id': the id of a request, number type parameter}"
+		'Use this tool when you are asked to delete a lib, need to import dependency: import {Requests} from "@lib/Requests";'
+		"{'request_id': the id of a lib, number type parameter}"
 	)
 
 	def _run(self, request_id):
@@ -58,9 +58,9 @@ class DeleteRequest(BaseTool):
 
 
 class AddNote(BaseTool):
-	name: str = "Tool to generate code to add note to a request"
+	name: str = "Tool to generate code to add note to a lib"
 	description: str = (
-		'Use this tool when you are asked to add note to a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to add note to a lib, need to import dependency: import {Requests} from "@lib/Requests";'
 		"'note': the content, string type parameter"
 	)
 
@@ -145,3 +145,32 @@ class SelectSingleAcl(BaseTool):
 		selector = get_clean_val(selector)
 		value = get_clean_val(value)
 		return f'await Ctrls.selectSingleAcl(page, "{selector}", "{value}");'
+
+
+class DeleteRequestOnRequestDetailPage(BaseTool):
+	name: str = "Tool to generate code to delete lib on lib detail page"
+	description: str = (
+		'Use this tool when you are asked to delete lib on lib detail page, need to import dependency: import {Requests} from "@lib/Requests";'
+	)
+
+	def _run(sel):
+		return "await Requests.deleteRequestOnRequestDetailPage(page);"
+
+
+class Requests():
+	@staticmethod
+	def get_tools():
+		return [Login(),
+				SaveRequest(),
+				SubmitRequest(),
+				CreateRequest(),
+				DeleteRequest(),
+				AddNote(),
+				ClickWorkflowAction(),
+				ClickButton(),
+				SelectDropdownOption(),
+				SelectRadio(),
+				FillInput(),
+				SelectSingleAcl(),
+				DeleteRequestOnRequestDetailPage(),
+				]

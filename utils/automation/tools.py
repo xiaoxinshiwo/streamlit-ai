@@ -1,3 +1,6 @@
+import ast
+
+
 def get_clean_val(param_value, extracted_key='title'):
 	if extracted_key in param_value:
 		return param_value.get(extracted_key)
@@ -5,16 +8,26 @@ def get_clean_val(param_value, extracted_key='title'):
 		return param_value
 
 
-def fibonacci(n):
-	fib_sequence = [0, 1]
-	while len(fib_sequence) < n:
-		next_fib = fib_sequence[-1] + fib_sequence[-2]
-		fib_sequence.append(next_fib)
-	return fib_sequence[:n]
+def extract_class_constructors(file_path):
+	# Read the content of the Python file
+	with open(file_path, 'r') as file:
+		file_content = file.read()
 
-# 生成前 10 个斐波那契数
-print(fibonacci(10))
+	# Parse the content into an AST
+	tree = ast.parse(file_content)
+
+	# Extract all the classes and their names
+	class_constructors = []
+	for node in ast.walk(tree):
+		if isinstance(node, ast.ClassDef):
+			class_constructors.append(f"{node.name}()")
+
+	return class_constructors
+
 
 if __name__ == '__main__':
-	# 生成前 10 个斐波那契数
-	print(fibonacci(10))
+	# Example usage
+	file_path = 'C:\\Users\\YonZhang\\PycharmProjects\\streamlit-ai\\utils\\automation\\lib\\menus.py'
+	constructors = extract_class_constructors(file_path)
+	for constructor in constructors:
+		print(constructor, ',')

@@ -30,7 +30,7 @@ def get_strawberry_answer(question, memory, api_key):
 	return response
 
 
-def python_executor(question, memory, api_key):
+def python_executor(question, api_key):
 	model = ChatOpenAI(api_key=api_key, model="gpt-4o-mini", temperature=0)
 	agent_executor = create_python_agent(
 		llm=model,
