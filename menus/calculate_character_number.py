@@ -8,7 +8,7 @@ from utils.streamlit_utils import ai_message, human_message, openai_key_side_bar
 # 在句子“山重水复疑无路，柳暗花明又一村”中有多少个汉字？\n
 # 请问strawberry这个单词中有多少个字符r?
 
-st.subheader('🍓Calculate character number')
+st.subheader(':material/calculate: Calculate character number')
 
 api_key = openai_key_side_bar()
 ai_message("Hello, I'm your AI assistant. How Can I help?")
