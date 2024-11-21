@@ -3,7 +3,7 @@ import streamlit as st
 from utils import agent_utils
 from utils.streamlit_utils import openai_key_side_bar
 
-st.title('📖PPM ui automation')
+st.title('📝PPM ui automation')
 
 api_key = openai_key_side_bar()
 test_context = st.text_area(placeholder="Please input your test steps.", label="Test Steps", height=400, label_visibility="hidden")
