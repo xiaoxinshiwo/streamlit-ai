@@ -9,12 +9,12 @@ pages = {
 	],
 	"RAG": [
 		st.Page("menus/pdf_question_answer.py", title="Upload PDF and ask questions", icon=":material/picture_as_pdf:"),
-		st.Page("menus/ppm_help_document.py", title="Get help for PPM", icon=":material/find_in_page:"),
+		st.Page("menus/ppm_help_document.py", title="PPM help", icon=":material/find_in_page:"),
 	],
 	"AGENT": [
-		st.Page("menus/csv_analysis_tool.py", title="CSV Tools", icon=":material/table:"),
+		st.Page("menus/csv_analysis_tool.py", title="CSV Tool", icon=":material/table:"),
 		st.Page("menus/ppm_automation.py", title="PPM UI Automation", icon=":material/prescriptions:"),
-		st.Page("menus/python_executor.py", title="Python Tools", icon=":material/computer:"),
+		st.Page("menus/python_executor.py", title="Python Tool", icon=":material/computer:"),
 		st.Page("menus/calculate_character_number.py", title="Calculate character number", icon=":material/calculate:"),
 	],
 }
