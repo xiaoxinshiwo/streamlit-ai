@@ -4,7 +4,7 @@ import streamlit as st
 from langchain.memory import ConversationBufferMemory
 
 from utils.ai_utils import pdf_qa_agent
-from utils.streamlit_utils import ai_message, human_message
+from utils.streamlit_utils import ai_message, human_message, openai_key_side_bar
 
 st.title('📖Upload PDF and ask questions')
 
@@ -15,10 +15,7 @@ with st.expander("RAG(Retrieval augmented generation)"):
 
 uploaded_file = st.file_uploader("Upload a PDF file", type=[".pdf"])
 
-with st.sidebar:
-	api_key = st.text_input("Please input your api key", type="password", value=os.getenv("OPENAI_API_KEY"))
-	if not api_key:
-		st.warning("Please input your api key")
+api_key = openai_key_side_bar()
 
 ai_message("Hello, I'm your AI assistant. Please upload a PDF, I can find answers from it.")
 

@@ -4,6 +4,7 @@ import pandas as pd
 import streamlit as st
 
 from utils.csv_agent_utils import dataframe_agent
+from utils.streamlit_utils import openai_key_side_bar
 
 
 def create_chart(input_data, chart_type):
@@ -21,10 +22,7 @@ st.title('📊CSV Analysis Tool')
 
 uploaded_file = st.file_uploader("Upload a CSV file", type=[".csv"])
 
-with st.sidebar:
-	api_key = st.text_input("Please input your api key", type="password", value=os.getenv("OPENAI_API_KEY"))
-	if not api_key:
-		st.warning("Please input your api key")
+api_key = openai_key_side_bar()
 if uploaded_file:
 	st.session_state["csv_df"] = pd.read_csv(uploaded_file)
 	with st.expander("Original Data"):
