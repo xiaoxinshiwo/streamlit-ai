@@ -1,3 +1,5 @@
+from langchain_core.prompts import ChatPromptTemplate
+
 auto_prompt = """
 You are a testing expert and will be asked to write some automated test cases based on the playwright framework.
 The user will enter a series of test steps. 
@@ -8,11 +10,9 @@ Here is the rules to convert test steps into test cases:
 The test steps entered by the user are as follows:
 """
 
-
-from langchain_core.prompts import ChatPromptTemplate
 # hwchase17/react-json
 agent_prompt = ChatPromptTemplate.from_messages([
-  ("system", """ "Answer the following questions as best you can. You have access to the following tools:
+	("system", """ "Answer the following questions as best you can. You have access to the following tools:
 
 {tools}
 
@@ -53,5 +53,5 @@ Begin! Reminder to always use the exact characters `Final Answer` when respondin
 
 {agent_scratchpad}"
  """
- ),
+	 ),
 ])

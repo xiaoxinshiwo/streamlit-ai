@@ -1,18 +1,21 @@
-import itertools
 import os
+from itertools import chain
+from typing import Sequence, Type, List
 
 from langchain.agents import create_structured_chat_agent, AgentExecutor
 from langchain_openai import ChatOpenAI
 
 from utils.automation import automation_prompt
+from utils.automation.lib.ctrls import Ctrls
+from utils.automation.lib.login import LoginLogout
 from utils.automation.lib.menus import Menus
 from utils.automation.lib.requests import *
 from utils.automation.lib.selector import Selector
 
 
-def write_ppm_automation(test_context, api_key):
+def write_ppm_automation(test_steps, api_key):
 	model = ChatOpenAI(api_key=api_key, model="gpt-4o-mini", temperature=0)
-	tools = list(itertools.chain(Requests.get_tools(), Menus.get_tools(), Selector.get_tools()))
+	tools = list_all_tools([Ctrls, LoginLogout, Requests, Menus, Selector])
 	prompt = automation_prompt.agent_prompt
 
 	agent = create_structured_chat_agent(
@@ -24,7 +27,7 @@ def write_ppm_automation(test_context, api_key):
 		agent_executor = AgentExecutor.from_agent_and_tools(
 			agent=agent, tools=tools, verbose=True, handle_parsing_errors=True, early_stopping_method="generate"
 		)
-		response = agent_executor.invoke({"input": automation_prompt.auto_prompt + test_context})
+		response = agent_executor.invoke({"input": automation_prompt.auto_prompt + test_steps})
 		markdown_resp = f"""
 		```typescript
 		{response['output']}
@@ -33,6 +36,16 @@ def write_ppm_automation(test_context, api_key):
 		print(error)
 		raise Exception("Generate test case failed, please try again.")
 	return markdown_resp
+
+
+def list_all_tools(class_array: (Sequence[Type[BaseLibClass]])) -> List[BaseTool]:
+	"""Returns a list of instances of classes that inherit from BaseTool.
+	Args:
+		class_array (Sequence[Type[BaseLibClass]]): A sequence of classes.
+	Returns:
+		List[BaseTool]: A list of BaseTool instances.
+	"""
+	return list(chain.from_iterable(clazz.get_tools() for clazz in class_array))
 
 
 if __name__ == '__main__':

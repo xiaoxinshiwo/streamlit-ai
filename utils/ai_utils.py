@@ -33,7 +33,12 @@ def pdf_qa_agent(openai_api_key, memory, uploaded_file, question):
 		retriever=retriever,
 		memory=memory
 	)
-	q_template = f'''Please answer according to the context. If the question is irrelevant to the context, please answer "I don't know".\n Question is:{question}'''
+	q_template = f"""
+	Please answer according to the context. 
+	If the question is irrelevant to the context, please answer "I don't know".
+	Question is:
+	{question}
+	"""
 
 	response = qa.invoke({"chat_history": memory, "question": q_template})
 	return response["answer"]

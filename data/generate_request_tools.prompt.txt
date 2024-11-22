@@ -1,0 +1,476 @@
+将class Requests 的每个方法生成到 Requests.py文件中，
+要求如下：
+1. 仅抽取方法名作为类名, 首字母转换为大写
+2. 将方法名解析为 name 和 description
+3. _run方法中返回如何调用的string代码， 如: await Requests.deleteRequest(page, {request_id});
+
+样例如下：
+
+class DeleteRequest(BaseTool):
+	name: str = "Tool to generate code to delete a request"
+	description: str = (
+		'Use this tool when you are asked to delete a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		"{'request_id': the id of a request, number type parameter}"
+	)
+
+	def _run(self, request_id):
+		request_id = get_clean_val(request_id)
+		return f"await Requests.deleteRequest(page, {request_id});"
+
+
+class AddNote(BaseTool):
+	name: str = "Tool to generate code to add note to a request"
+	description: str = (
+		'Use this tool when you are asked to add note to a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		"'note': the content, string type parameter"
+	)
+
+	def _run(self, note):
+		note = get_clean_val(note)
+		return f"await Requests.addNote(page, '{note}');"
+
+
+class Requests 的内容为：
+
+export class Requests{
+    	static async addAttachmentToRequest(page:any, filePath?:string, refRequestType?:string, addRefElementSelector?:string){
+        if(!addRefElementSelector){
+            addRefElementSelector="id=IMAGE_EC_REQUEST_REFERENCES";
+        }
+        let refTypeElementSelector = "id=NEW_REFERENCE_ENTITY_TYPE";
+        let refTypeInvisible=await page.isHidden(refTypeElementSelector);
+        if(refTypeInvisible) {
+            await continueClickWaitFor(page, addRefElementSelector, refTypeElementSelector);
+        }
+
+        let defer=new DeferredPromise();
+        page.context().once("page",async (newPage:any)=>{
+            await waitPageLoaded(newPage);
+            await newPage.setInputFiles('id=fldDocument', filePath).catch((err: any) => {
+                /* Only swallow the following errors
+                Protocol error (Runtime.callFunctionOn): Target closed.
+                Context or browser has been closed
+                Session closed
+                Rethrow other errors  */
+                if(err.toString().indexOf("closed")===-1){
+                    console.log(err);
+                    throw err;
+                }
+            });
+            await newPage.click("id=btnAdd").catch((err: any) => {
+                /* Only swallow the following errors
+                 Protocol error (Runtime.callFunctionOn): Target closed.
+                 Context or browser has been closed
+                 Session closed
+                 Rethrow other errors  */
+                if(err.toString().indexOf("closed")===-1){
+                    console.log(err);
+                    throw err;
+                }
+            });
+            defer.resolve();
+        });
+
+        await Ctrls.selectDropdownOption(page, refTypeElementSelector,"Attachment");
+        await page.click(Selector.byFullAttribute("a","href","javascript:addRef();"));
+        await defer.promise;
+    }
+
+
+    static async addAttachmentToRequestFromRequestTypeFieldsBlock(page:any, filePath:string, description?:string){
+        let attachFilePagePromise:Promise<Page> = getNewOpenedPage(page);
+        await page.click("id=P_14buttonCell");
+        await attachFilePagePromise.then(async (attachFilePage)=>{
+            await waitPageLoaded(attachFilePage);
+            await attachFilePage.setInputFiles('id=fldDocument', filePath);
+            await Ctrls.fillTextAreaByNameAndblur(attachFilePage, "description", description ?? '');
+            await attachFilePage.click("id=btnAdd");
+        })
+
+        // let attachFilePage:Page = await QueryBuilder.getNewOpenedPage(page);
+        // await waitPageLoaded(attachFilePage);
+        // await attachFilePage.setInputFiles('id=fldDocument', filePath);
+        // await attachFilePage.fill(Selector.byName("textarea", "description"), description??'');
+        // await attachFilePage.click("id=btnAdd");
+    }
+
+    static async deleteAttachmentOnRequestFromRequestTypeFieldsBlock(page:any){
+        // await page.click("id=P_14buttonCell");
+        // let attachFilePage:Page = await QueryBuilder.getNewOpenedPage(page);
+        // await waitPageLoaded(attachFilePage);
+        // attachFilePage.on('dialog', (dialog:any) => {
+        //     dialog.accept();
+        // });
+        // await attachFilePage.click("id=btnRemove");
+        // await shortDelay();
+        let attachFilePagePromise:Promise<Page> = getNewOpenedPage(page);
+        await page.click("id=P_14buttonCell");
+        await attachFilePagePromise.then(async(attachFilePage)=>{
+            await waitPageLoaded(attachFilePage);
+            attachFilePage.once('dialog', (dialog:any) => {
+                dialog.accept();
+            });
+            await attachFilePage.click("id=btnRemove");
+            await shortDelay();
+        })
+
+    }
+
+    // choose columns from left list
+    // eg, await Requests.chooseColumnsFromLeft(page, ["Assigned To Group", "Contact"]);
+    public static async chooseColumnsFromLeft(page: any, chooseLeftArray:string[]){
+        let leftListSelector = Selector.byName("select","LeftList");
+        await page.waitForSelector(leftListSelector);
+        let selectHandle =await page.$(leftListSelector);
+        for (const optionName of chooseLeftArray) {
+            let optionItemsText = await selectHandle.innerText();
+            let optionsArray = optionItemsText.split("\n") as string[];
+            let exists = optionsArray.includes(optionName);
+            if(!exists){
+                continue;
+            }
+            await Ctrls.selectDropdownOption(page, leftListSelector, optionName);
+            await page.click(Selector.byHref("javascript:moveOptionsRight()"));
+            await tinyDelay();
+        }
+    }
+
+    /**
+     * run workflow by click button, assert status if correct when next stage page reloaded.
+     * eg, await Requests.proceedWorkFlow(page, Selector.byFullText('div', 'Approved'), 'High-Level Business Case');
+     * @param page
+     * @param workflowBtnSelector
+     * @param nextStageWorkFlowStatus
+     */
+     static async proceedWorkFlow(page: any, workflowBtnSelector: string | null, nextStageWorkFlowStatus: string|string[]) {
+        if (workflowBtnSelector) {
+            await page.click(workflowBtnSelector);
+        }
+        let commonStatusSpanSelector = '//div[@id="requestStatus"]//a/span[1]';
+        await waitPageLoaded(page);
+        await Requests.assertStatusCorrect(page, commonStatusSpanSelector, nextStageWorkFlowStatus);
+    }
+
+    /**
+     * assert status if correct when next stage page reloaded.
+     * eg, Requests.assertStatusCorrect(page, statusSelector, nextStageWorkFlowStatus);
+     * @param page
+     * @param statusSelector
+     * @param expectStatus
+     */
+    static async assertStatusCorrect(page: Page, statusSelector: string, expectStatus: string|string[]) {
+        if(Array.isArray(expectStatus)){
+            await page.waitForSelector(statusSelector);
+            await shortDelay();
+            expect(expectStatus.includes((await page.innerText(statusSelector)).trim())).toBe(true);
+        }else{
+            await continueWaitForSelector(page, '//div[@id="requestStatus"]//a/span[contains(text(),"' + expectStatus + '")]');
+            await shortDelay();
+            await page.waitForSelector(statusSelector);
+            expect((await page.innerText(statusSelector)).trim()).toBe(expectStatus);
+        }
+    }
+
+    public static async validateNote(page:Page, noteValidationModel:NoteValidation, rowNumber:number = 1){
+        let notesFrameSelector:string = "iframe[src^='../crt/RequestNote.jsp?']";
+        await page.waitForSelector(notesFrameSelector);
+        let featureFrameHandle:ElementHandle<SVGElement | HTMLElement> | null = await page.$(notesFrameSelector);
+        let featureFrame:Frame|null|undefined = await featureFrameHandle?.contentFrame();
+        if(noteValidationModel.filterByAuthor && noteValidationModel.author){
+            await Ctrls.selectDropdownOption(page, Selector.byName("select","NOTE_AUTHOR"), noteValidationModel.author);
+        }else{
+            await Ctrls.selectDropdownOption(page, Selector.byName("select","NOTE_AUTHOR"), 'ALL');
+        }
+        if(noteValidationModel.filterByChangedField && noteValidationModel.changedField){
+            await Ctrls.selectDropdownOption(page, Selector.byName("select","CHANGE_FIELD"), noteValidationModel.changedField);
+        }else{
+            await Ctrls.selectDropdownOption(page, Selector.byName("select","CHANGE_FIELD"), 'ALL');
+        }
+        if(!await page.locator(Selector.byName("input","SHOW_ONLY_USER_NOTE")).isDisabled()){
+            Ctrls.fillFields(page, [{selector:Selector.byName("input","SHOW_ONLY_USER_NOTE"), ctrlType:CtrlType.CHECKBOX, value:noteValidationModel.showOnlyUserNote}])
+        }
+        await shortDelay();
+
+        let noteText:string|undefined = await featureFrame?.innerText(`table.contentTable tr>td:nth-child(2) >> nth=${rowNumber}`);
+        noteText = noteText?.replace(/\\n/, '');
+        noteValidationModel.note = noteValidationModel.note.replace(/\\n/, '');
+        expect(noteText).toBe(noteValidationModel.note);
+    }
+
+    /**
+     * fill table which has six different fields to fill
+     * eg, await Requests.fillTableFields(page);
+     * @param page
+     */
+    static async fillTableFields(page: any, goToView:boolean = true) {
+        // expand table
+        let tableDiv = "//div[@id='DIV_EC_REQUEST_TC_REQD.P.TABLE']";
+        let tableState = await page.getAttribute(tableDiv, "style") as string;
+        if (tableState.indexOf('none') !== -1 && tableState.indexOf('display') !== -1) {
+            await page.click('id=IMAGE_EC_REQUEST_TC_REQD.P.TABLE');
+        }
+        let editBtnSelector = Selector.byPartialAttribute('img', 'src', 'TC_edit.png');
+        let viewBtnSelector = Selector.byPartialAttribute('img', 'src', 'TC_read.png');
+        await page.click(editBtnSelector);
+        await continueClickWaitFor(page, Selector.byPartialAttribute('img', 'src', 'add.png'),
+            "(//div[contains(@id, 'edGridDiv_')]//tr//select)[2]");
+
+        await Ctrls.fillFields(page, [
+            new FieldInfo("(//div[contains(@id, 'edGridDiv_')]//tr//input)[1]", appendWithTime('auto_test')),
+            new FieldInfo("(//div[contains(@id, 'edGridDiv_')]//tr//input)[2]", nowDate(), CtrlType.DATE),
+            new FieldInfo("(//div[contains(@id, 'edGridDiv_')]//tr//select)[1]", "Low", CtrlType.DROPDOWN),
+            new FieldInfo("id=TC_EditableComponents_P_10_3AUTOCOMP_IMG", "Admin", CtrlType.SINGLE_ACL),
+            new FieldInfo("(//div[contains(@id, 'edGridDiv_')]//tr//select)[2]", true, CtrlType.RADIO),
+            new FieldInfo("(//div[contains(@id, 'edGridDiv_')]//tr//input)[4]", "www.google.com"),
+        ]);
+        await shortDelay();
+        if(goToView){
+            await page.click(viewBtnSelector);
+            await shortDelay();
+        }
+    }
+
+
+
+    static async addLink(page:any,addLinkBtnSelector:string,link:string) {
+        await page.click(addLinkBtnSelector);
+        let deferreds: any[] = [];
+        let deferredPromise = new Promise(function (resolve, reject) {
+            deferreds.push({resolve: resolve, reject: reject});
+        });
+        //add link
+        await page.context().once("page", async (newPage: any) => {
+            await waitPageLoaded(newPage);
+            await newPage.fill(Selector.byName('input','URL_Reference'),link);
+            await newPage.click("//div[@id='btnOk']").catch((err:any)=>{
+                console.log(err+'!!!!')
+            });
+            await continueWaitForSelector(page,Selector.byFullText('div',"Edit"));
+            deferreds[0].resolve(true);
+        });
+        await deferredPromise.then(() => {
+            // console.log("#########Link has been added to request.###########");
+        });
+    }
+
+    static async addPassword(page:any,addPasswordBtnSelector:string,password:string){
+        await page.click(addPasswordBtnSelector);
+        let deferreds: any[] = [];
+        let deferredPromise = new Promise(function (resolve, reject) {
+            deferreds.push({resolve: resolve, reject: reject});
+        });
+        //add password
+        await page.context().once("page",async (newPage:any) => {
+            await waitPageLoaded(newPage);
+            await newPage.fill(Selector.byName('input','PASSWORD'),password);
+            await newPage.fill(Selector.byName('input','CONFIRM_PASSWORD'),password);
+            await tinyDelay();
+            await newPage.click("//div[@id='btnOK']").catch((err:any)=>{
+                console.log(err+'!!!!');
+            });
+            await continueWaitForSelector(page,"//a[@title='Change Auto_password.']");
+            deferreds[0].resolve(true);
+        });
+        await deferredPromise.then(() => {
+            // console.log("#########password has been added to request.###########");
+        });
+    }
+
+    public static async addResourceViaAssignedToField(page: Page, firstName:string, lastName:string, searchResultRowNumber:number = 1, isNeedSave:boolean = true): Promise<any>{
+        await page.click("img[name=ASSIGNED_TO_USER_IDAUTOCOMP_IMG]  >> xpath=..");
+
+        await Requests.addResourceFromFrame(page, firstName, lastName, searchResultRowNumber, isNeedSave);
+    }
+
+    public static async addResourceViaAutoUserIdField(page: Page, firstName:string, lastName:string, searchResultRowNumber:number = 1, isNeedSave:boolean = true): Promise<any>{
+        await page.click("img[name=P_15AUTOCOMP_IMG]  >> xpath=..");
+
+        await Requests.addResourceFromFrame(page, firstName, lastName, searchResultRowNumber, isNeedSave);
+    }
+
+    public static async addResourceViaAutoUserNameField(page: Page, firstName:string, lastName:string, searchResultRowNumber:number = 1, isNeedSave:boolean = true): Promise<any>{
+        await page.click("img[name=P_16AUTOCOMP_IMG]  >> xpath=..");
+
+        await Requests.addResourceFromFrame(page, firstName, lastName, searchResultRowNumber, isNeedSave);
+    }
+
+    private static async addResourceFromFrame(page:Page, firstName:string, lastName:string, searchResultRowNumber:number = 1, isNeedSave:boolean = true){
+        let addReferencesFrameSelector:string = "//iframe[@id='autoCompleteDialogIF']";
+        let addReferencesFrame:Frame = await Ctrls.getIFrmae(page, addReferencesFrameSelector);
+
+        await tinyDelay();
+        await addReferencesFrame.fill(Selector.byName("input", "P_FIRST_NAME"), firstName);
+        await addReferencesFrame.fill(Selector.byName("input", "P_LAST_NAME"), lastName);
+        await shortDelay();
+        await addReferencesFrame.click(Selector.byHref("javascript:findButtonAction();"));
+        await shortDelay();
+
+        await addReferencesFrame.waitForSelector("id=availFrame");
+        await addReferencesFrame?.focus("id=availFrame");
+        let availFrameHandle:ElementHandle<SVGElement | HTMLElement> | null = await addReferencesFrame.$("id=availFrame");
+        let availFrame:Frame|null|undefined = await availFrameHandle?.contentFrame();
+
+        let selectedItemSelector:string = `#datatable tbody tr:nth-child(${searchResultRowNumber})`;
+        await continueWaitForSelector(availFrame, selectedItemSelector);
+        await shortDelay();
+        let selItemHandle:ElementHandle<SVGElement | HTMLElement> | null | undefined = await availFrame?.$(selectedItemSelector);
+        await selItemHandle?.hover();
+        await tinyDelay();
+        await selItemHandle?.click();
+        if(isNeedSave){
+            await tinyDelay();
+            await Requests.saveRequest(page);
+            await mediumDelay();
+            await Requests.checkIsResourceDoesExist(page, firstName, lastName);
+        }
+    }
+
+    public static async checkIsResourceDoesExist(page:Page, firstName:string, lastName:string, rowNumber?:number|undefined){
+        let isExistSpecificResource:boolean = await Requests.isResourceDoesExist(page, firstName, lastName, rowNumber);
+        expect(isExistSpecificResource).toBe(true);
+    }
+
+    //Resource management operations
+    static async addResource(page: Page, firstName:string, lastName:string, searchResultRowNumber:number = 1): Promise<any>{
+        if(await page.isVisible("img[id=IMAGE_REQUEST_RESOURCES][alt='Expand']")){
+            await page.click("img[id=IMAGE_REQUEST_RESOURCES][alt='Expand'] >> xpath=..");
+            await tinyDelay();
+        }
+
+        await page.click(Selector.byHref("javascript: addRow();"));
+
+        await Requests.addResourceFromFrame(page, firstName, lastName, searchResultRowNumber);
+    }
+
+    public static async isResourceDoesExist(page:Page, firstName:string, lastName:string, rowNumber?:number|undefined){
+        if(!rowNumber){
+            rowNumber = (await page.$$(`#scrollWrapper table tbody.undefined>tr`)).length - 1;
+        }
+        await tinyDelay();
+        let userFullName:string|undefined = (await page.innerText(`#scrollWrapper table tbody tr:nth-child(${rowNumber})>td:nth-child(2)`)).replace('\t', '')
+        return userFullName == `${firstName} ${lastName}`;
+    }
+
+	public static async validateAddedResource(page:Page, requestResourceFill:RequestResourceFill, rowNumber?:number|undefined){
+        await page.click(`#scrollWrapper table tbody.undefined>tr:nth-child(${rowNumber})`);
+        await tinyDelay();
+        await Requests.VerifyRequestFieldValue(page, "Scheduled Effort (hrs)", "input[title='Scheduled Effort (hrs)']", requestResourceFill.scheduledEffort.toString(), "NUMBER");
+        await Requests.VerifyRequestFieldValue(page, "Actual Effort (hrs)", "input[title='Actual Effort (hrs)']", requestResourceFill.actualEffort.toString(), "NUMBER");
+        await Requests.VerifyRequestFieldValue(page, "Start Date", "div#_COL_5outerDiv input", requestResourceFill.startDate, "DATE");
+        await Requests.VerifyRequestFieldValue(page, "End Date", "div#_COL_6outerDiv input", requestResourceFill.endDate, "DATE");
+    }
+
+    public static async fillResourceContent(page:Page, contentModel:RequestResourceFill, rowNumber:number = 1){
+        await page.click(`#scrollWrapper table tbody.undefined>tr:nth-child(${rowNumber})`);
+        await tinyDelay();
+        await Ctrls.fillFields(page, [
+            new FieldInfo("input[title='Scheduled Effort (hrs)']", contentModel.scheduledEffort.toString()),
+            new FieldInfo("input[title='Actual Effort (hrs)']", contentModel.actualEffort.toString()),
+        ]);
+        await Ctrls.setDate(page, "div#_COL_5outerDiv input", contentModel.startDate);
+        await Ctrls.setDate(page, "div#_COL_6outerDiv input", contentModel.endDate);
+    }
+
+    public static async verifyResourceOverallInfoWithRequestsFields(page:Page){
+        let overallRowSelector:string = `#scrollWrapper table tbody.undefined>tr:nth-child(${(await page.$$(`#scrollWrapper table tbody.undefined>tr`)).length})`;
+
+        let overallScheduledEffort:string = (await page.innerText(overallRowSelector + ">td:nth-child(3)")).replace('\t', '');
+        await Requests.VerifyRequestFieldValue(page, "Scheduled Effort", "id=REQ.P.KNTA_SCHED_EFFORT", overallScheduledEffort, "NUMBER");
+
+        let overallActualEffort:string = (await page.innerText(overallRowSelector + ">td:nth-child(4)")).replace('\t', '');
+        await Requests.VerifyRequestFieldValue(page, "Actual Effort", "id=REQ.P.KNTA_ACTUAL_EFFORT", overallActualEffort, "NUMBER");
+
+        let overallStartDate:string = (await page.innerText(overallRowSelector + ">td:nth-child(5)")).replace('\t', '');
+        await Requests.VerifyRequestFieldValue(page, "Actual Start Date", "id=REQ.P.KNTA_USR_ACTUAL_START_DATE", overallStartDate, "DATE");
+
+        let overallEndDate:string = (await page.innerText(overallRowSelector + ">td:nth-child(6)")).replace('\t', '');
+        await Requests.VerifyRequestFieldValue(page, "Actual Finish Date", "id=REQ.P.KNTA_USR_ACTUAL_FINISH_DATE", overallEndDate, "DATE");
+    }
+
+    public static async deleteResource(page:Page, rowNumber:number = 1){
+        let assignToInputValue:string|undefined = await (await page.$("id=REQ.ASSIGNED_TO_USER_IDAC_TF"))?.inputValue();
+        let resouceRowUserFullName:string = (await page.innerText(`#scrollWrapper table tbody.undefined>tr:nth-child(${rowNumber})>td:nth-child(2)`)).replace('\t', '');
+        if(assignToInputValue == resouceRowUserFullName){
+            page.fill("id=REQ.ASSIGNED_TO_USER_IDAC_TF", '');
+            page.press("id=REQ.ASSIGNED_TO_USER_IDAC_TF", "Enter");
+            await tinyDelay();
+        }
+
+        await page.click(`#scrollWrapper table tbody.undefined>tr:nth-child(${rowNumber})>td:nth-child(1)`);
+        await Requests.saveRequest(page);
+        await mediumDelay();
+    }
+
+    public static async addAttachment(page: any, addFileBtnSelector: string, filePath: string) {
+        await page.click(addFileBtnSelector);
+        let deferreds: any[] = [];
+        let deferredPromise = new Promise(function (resolve, reject) {
+            deferreds.push({resolve: resolve, reject: reject});
+        });
+        //Choose and add attachment
+        await page.context().once("page", async (newPage: any) => {
+            await waitPageLoaded(newPage);
+            await newPage.setInputFiles('id=fldDocument', filePath).catch((err: any) => {
+                console.log("attechment: "+err);
+            });
+            await newPage.click("id=btnAdd").catch((err: any) => {
+                if (err.toString().indexOf("closed") === -1) {
+                    throw err;
+                }
+            });
+            await continueWaitForSelector(page, Selector.byFullText('div', 'Replace'));
+            deferreds[0].resolve(true);
+        });
+
+        await deferredPromise.then(() => {
+            // console.log("#########Attachment has been added to request.###########");
+        });
+    }
+
+    public static async createBugRequestWithRequiredFields(page: Page, REQUEST_TYPE: string): Promise<any> {
+        let requestFields:FieldInfo[] = [
+            new FieldInfo('id=REQ.DEPARTMENT_CODE', 'Finance', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQ.PRIORITY_CODE', 'Low', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQ.DESCRIPTION', appendWithTime("Auto_Request")),
+            new FieldInfo('id=REQD.P.MODULE', 'Module A', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQD.P.PLATFORM', 'Linux', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQD.P.IMPACT', 'Warning', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQD.P.REPRO_Y', null, CtrlType.RADIO),
+        ];
+        const requestId:string = await Requests.createRequestForRt(page, REQUEST_TYPE, null, requestFields);
+        await waitPageLoaded(page);
+        return requestId;
+    };
+
+    public static async createRequestWithRequiredFields(page: any, rt: string): Promise<any> {
+        let requestFields:FieldInfo[] = [
+            new FieldInfo('id=REQ.DEPARTMENT_CODE', 'Finance', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQ.PRIORITY_CODE', 'Low', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQ.DESCRIPTION', appendWithTime("Auto_Request_XX")),
+            new FieldInfo('id=REQD.P.MODULE', 'Module A', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQD.P.PLATFORM', 'Linux', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQD.P.IMPACT', 'Warning', CtrlType.DROPDOWN),
+            new FieldInfo('id=REQD.P.REPRO_Y', null, CtrlType.RADIO),
+        ];
+        return await Requests.createRequestForRt(page, rt, null, requestFields);
+    }
+
+    public static async selectRequestsToMassEdit(page:any, requestIds:number[]){
+        for(let requestId of requestIds) {
+            await page.check("tr:has-text('" + requestId + "') >> input");
+            await tinyDelay();
+        }
+        await Ctrls.clickDropdownButton(page, ["id=Edit.label", "id=Edit.MassApply"]);
+    }
+
+    public static async selectRequestsToDelete(page:any, requestIds:number[]){
+        for(let requestId of requestIds) {
+            await page.check("tr:has-text('" + requestId + "') >> input");
+            await tinyDelay();
+        }
+        await page.click("id=DELETE_IMG");
+        await waitPageLoaded(page);
+        await mediumDelay();
+    }
+
+}

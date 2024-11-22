@@ -1,5 +1,6 @@
 from langchain_core.tools import BaseTool
 
+from utils.automation.base_lib_class import BaseLibClass
 from utils.automation.tools import get_clean_val
 
 
@@ -60,7 +61,7 @@ class ByPartialAttributes(BaseTool):
 		tag = get_clean_val(tag)
 		attributName = get_clean_val(attributName)
 		attributeValues = get_clean_val(attributeValues)
-		return f"Selector.byPartialText(('{tag}, {attributName}, {attributeValues}');"
+		return f"Selector.byPartialText(('{tag}', '{attributName}', {attributeValues});"
 
 
 class ByPartialText(BaseTool):
@@ -74,7 +75,7 @@ class ByPartialText(BaseTool):
 	def _run(self, tag, text):
 		tag = get_clean_val(tag)
 		text = get_clean_val(text)
-		return f"Selector.byPartialText(('{tag}, {text}');"
+		return f"Selector.byPartialText(('{tag}', '{text}');"
 
 
 class ByPartialTexts(BaseTool):
@@ -89,7 +90,7 @@ class ByPartialTexts(BaseTool):
 		tag = get_clean_val(tag)
 		texts = get_clean_val(texts)
 
-		return f"Selector.byPartialTexts(('{tag}, {texts}');"
+		return f"Selector.byPartialTexts(('{tag}', {texts});"
 
 
 class ByFullText(BaseTool):
@@ -103,7 +104,7 @@ class ByFullText(BaseTool):
 	def _run(self, tag, text):
 		tag = get_clean_val(tag)
 		text = get_clean_val(text)
-		return f"Selector.byFullText('{tag}, {text}');"
+		return f"Selector.byFullText('{tag}', '{text}');"
 
 
 class ByFullAttribute(BaseTool):
@@ -146,17 +147,18 @@ class ByLast(BaseTool):
 		return f"Selector.byLast('{selector}');"
 
 
-class Selector():
+class Selector(BaseLibClass):
 	@staticmethod
 	def get_tools():
-		return [ByName(),
-				ByPartialClass(),
-				ByPartialAttribute(),
-				ByPartialAttributes(),
-				ByPartialText(),
-				ByPartialTexts(),
-				ByFullText(),
-				ByFullAttribute(),
-				ByHref(),
-				ByLast(),
-				]
+		return [
+			ByName(),
+			ByPartialClass(),
+			ByPartialAttribute(),
+			ByPartialAttributes(),
+			ByPartialText(),
+			ByPartialTexts(),
+			ByFullText(),
+			ByFullAttribute(),
+			ByHref(),
+			ByLast(),
+		]

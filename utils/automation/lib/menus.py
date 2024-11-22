@@ -1,5 +1,6 @@
 from langchain_core.tools import BaseTool
 
+from utils.automation.base_lib_class import BaseLibClass
 from utils.automation.tools import get_clean_val
 
 
@@ -12,7 +13,7 @@ class OpenDashboardPrivatePage(BaseTool):
 
 	def _run(self, pageName):
 		pageName = get_clean_val(pageName)
-		return f"await Menus.openDashboardPrivatePage({pageName});"
+		return f"await Menus.openDashboardPrivatePage('{pageName}');"
 
 
 class OpenPersonalizeDashboard(BaseTool):
@@ -306,7 +307,7 @@ class OpenManageAccountSettings(BaseTool):
 
 
 class OpenCreateAPIKey(BaseTool):
-	name: str = "Tool to generate code to open create an API key"
+	name: str = "Tool to generate code to open create an API key page"
 	description: str = (
 		"Use this Tool to generate code to open navigate to the Create API Key page."
 	)
@@ -335,40 +336,41 @@ class OpenViewReports(BaseTool):
 		return "await Menus.openViewReports(page);"
 
 
-class Menus():
+class Menus(BaseLibClass):
 	@staticmethod
 	def get_tools():
-		return [OpenDashboardPrivatePage(),
-				OpenPersonalizeDashboard(),
-				OpenSearchRequest(),
-				OpenManageSavedSearches(),
-				OpenSearchProject(),
-				OpenCreateRequest(),
-				OpenCreateProjectIssue(),
-				OpenCreateRegion(),
-				OpenCreateProposal(),
-				OpenCreateResourcepool(),
-				OpenCreateRole(),
-				OpenCreateBilling(),
-				OpenCreateAdminConsoleRole(),
-				OpenCreateAdminConsoleUser(),
-				OpenEditAdminConsoleUser(),
-				OpenManageUsers(),
-				OpenManageRoles(),
-				OpenManageRegions(),
-				OpenManageProjects(),
-				OpenViewBilling(),
-				OpenViewResourcePool(),
-				OpenViewProposal(),
-				OpenViewSubscription(),
-				OpenViewUsage(),
-				OpenManageNotifications(),
-				OpenManageAuditLogs(),
-				OpenManageSecurity(),
-				OpenManageIdentity(),
-				OpenManageDomains(),
-				OpenManageAccountSettings(),
-				OpenCreateAPIKey(),
-				OpenManageAPIKeys(),
-				OpenViewReports(),
-				]
+		return [
+			OpenDashboardPrivatePage(),
+			OpenPersonalizeDashboard(),
+			OpenSearchRequest(),
+			OpenManageSavedSearches(),
+			OpenSearchProject(),
+			OpenCreateRequest(),
+			OpenCreateProjectIssue(),
+			OpenCreateRegion(),
+			OpenCreateProposal(),
+			OpenCreateResourcepool(),
+			OpenCreateRole(),
+			OpenCreateBilling(),
+			# OpenCreateAdminConsoleRole(),
+			# OpenCreateAdminConsoleUser(),
+			# OpenEditAdminConsoleUser(),
+			# OpenManageUsers(),
+			# OpenManageRoles(),
+			# OpenManageRegions(),
+			# OpenManageProjects(),
+			# OpenViewBilling(),
+			# OpenViewResourcePool(),
+			# OpenViewProposal(),
+			# OpenViewSubscription(),
+			# OpenViewUsage(),
+			# OpenManageNotifications(),
+			# OpenManageAuditLogs(),
+			# OpenManageSecurity(),
+			# OpenManageIdentity(),
+			# OpenManageDomains(),
+			OpenManageAccountSettings(),
+			OpenCreateAPIKey(),
+			OpenManageAPIKeys(),
+			OpenViewReports(),
+		]
