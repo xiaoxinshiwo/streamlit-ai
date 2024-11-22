@@ -5,6 +5,7 @@ from langchain.agents import create_structured_chat_agent, AgentExecutor
 from langchain_openai import ChatOpenAI
 
 from utils.automation import automation_prompt
+from utils.automation.lib.login import LoginLogout
 from utils.automation.lib.menus import Menus
 from utils.automation.lib.requests import *
 from utils.automation.lib.selector import Selector
@@ -12,7 +13,8 @@ from utils.automation.lib.selector import Selector
 
 def write_ppm_automation(test_context, api_key):
 	model = ChatOpenAI(api_key=api_key, model="gpt-4o-mini", temperature=0)
-	tools = list(itertools.chain(Requests.get_tools(), Menus.get_tools(), Selector.get_tools()))
+	tools = list(
+		itertools.chain(LoginLogout.get_tools(), Requests.get_tools(), Menus.get_tools(), Selector.get_tools()))
 	prompt = automation_prompt.agent_prompt
 
 	agent = create_structured_chat_agent(
@@ -25,10 +27,12 @@ def write_ppm_automation(test_context, api_key):
 			agent=agent, tools=tools, verbose=True, handle_parsing_errors=True, early_stopping_method="generate"
 		)
 		response = agent_executor.invoke({"input": automation_prompt.auto_prompt + test_context})
-		markdown_resp = f"""
-		```typescript
-		{response['output']}
-		"""
+		markdown_resp = response['output']
+		if '```typescript' not in markdown_resp:
+			markdown_resp = f"""
+			```typescript
+			{markdown_resp}
+			"""
 	except Exception as error:
 		print(error)
 		raise Exception("Generate test case failed, please try again.")

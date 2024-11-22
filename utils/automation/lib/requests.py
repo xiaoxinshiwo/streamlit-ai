@@ -3,16 +3,6 @@ from langchain_core.tools import BaseTool
 from utils.automation.tools import get_clean_val
 
 
-class Login(BaseTool):
-	name: str = "Tool to generate code to login"
-	description: str = (
-		'Use this tool when you are asked to login, need to import dependencies: import {login} from "@lib/Login"; import {PPMURL} from "@config";'
-	)
-
-	def _run(self):
-		return 'await login(page, PPMURL,"admin","admin");'
-
-
 class SaveRequest(BaseTool):
 	name: str = "Tool to generate code to save a lib"
 	description: str = (
@@ -148,9 +138,9 @@ class SelectSingleAcl(BaseTool):
 
 
 class DeleteRequestOnRequestDetailPage(BaseTool):
-	name: str = "Tool to generate code to delete lib on lib detail page"
+	name: str = "Tool to generate code to delete request on request detail page"
 	description: str = (
-		'Use this tool when you are asked to delete lib on lib detail page, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to delete request on request detail page, need to import dependency: import {Requests} from "@lib/Requests";'
 	)
 
 	def _run(sel):
@@ -160,17 +150,17 @@ class DeleteRequestOnRequestDetailPage(BaseTool):
 class Requests():
 	@staticmethod
 	def get_tools():
-		return [Login(),
-				SaveRequest(),
-				SubmitRequest(),
-				CreateRequest(),
-				DeleteRequest(),
-				AddNote(),
-				ClickWorkflowAction(),
-				ClickButton(),
-				SelectDropdownOption(),
-				SelectRadio(),
-				FillInput(),
-				SelectSingleAcl(),
-				DeleteRequestOnRequestDetailPage(),
-				]
+		return [
+			SaveRequest(),
+			SubmitRequest(),
+			CreateRequest(),
+			DeleteRequest(),
+			AddNote(),
+			ClickWorkflowAction(),
+			ClickButton(),
+			SelectDropdownOption(),
+			SelectRadio(),
+			FillInput(),
+			SelectSingleAcl(),
+			DeleteRequestOnRequestDetailPage(),
+		]

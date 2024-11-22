@@ -28,7 +28,7 @@ class ByPartialClass(BaseTool):
 	def _run(self, tag, clz):
 		tag = get_clean_val(tag)
 		clz = get_clean_val(clz)
-		return f"Selector.byPartialClass('{tag},'{clz}');"
+		return f"Selector.byPartialClass('{tag}','{clz}');"
 
 
 class ByPartialAttribute(BaseTool):
@@ -60,7 +60,7 @@ class ByPartialAttributes(BaseTool):
 		tag = get_clean_val(tag)
 		attributName = get_clean_val(attributName)
 		attributeValues = get_clean_val(attributeValues)
-		return f"Selector.byPartialText(('{tag}, {attributName}, {attributeValues}');"
+		return f"Selector.byPartialText(('{tag}', '{attributName}', {attributeValues});"
 
 
 class ByPartialText(BaseTool):
@@ -74,7 +74,7 @@ class ByPartialText(BaseTool):
 	def _run(self, tag, text):
 		tag = get_clean_val(tag)
 		text = get_clean_val(text)
-		return f"Selector.byPartialText(('{tag}, {text}');"
+		return f"Selector.byPartialText(('{tag}', '{text}');"
 
 
 class ByPartialTexts(BaseTool):
@@ -89,7 +89,7 @@ class ByPartialTexts(BaseTool):
 		tag = get_clean_val(tag)
 		texts = get_clean_val(texts)
 
-		return f"Selector.byPartialTexts(('{tag}, {texts}');"
+		return f"Selector.byPartialTexts(('{tag}', {texts});"
 
 
 class ByFullText(BaseTool):
@@ -149,14 +149,15 @@ class ByLast(BaseTool):
 class Selector():
 	@staticmethod
 	def get_tools():
-		return [ByName(),
-				ByPartialClass(),
-				ByPartialAttribute(),
-				ByPartialAttributes(),
-				ByPartialText(),
-				ByPartialTexts(),
-				ByFullText(),
-				ByFullAttribute(),
-				ByHref(),
-				ByLast(),
-				]
+		return [
+			ByName(),
+			ByPartialClass(),
+			ByPartialAttribute(),
+			ByPartialAttributes(),
+			ByPartialText(),
+			ByPartialTexts(),
+			ByFullText(),
+			ByFullAttribute(),
+			ByHref(),
+			ByLast(),
+		]
