@@ -1,7 +1,9 @@
 import os
+import re
+import time
 from itertools import chain
 from typing import Sequence, Type, List
-import time
+
 from langchain.agents import create_structured_chat_agent, AgentExecutor
 from langchain_openai import ChatOpenAI
 
@@ -23,13 +25,41 @@ def write_ppm_automation(test_steps, api_key):
 	"""
 	code_lines = []
 	for step in steps:
-		code_line = single_step_agent(step, api_key)
 		code_lines.append(f"// {step}")
+		var1, var2 = param_assignment(test_step=step)
+		code_line = single_step_agent(var2, api_key)
+		if var1:
+			code_line = var1 + code_line
 		code_lines.append(code_line)
 	code_to_format = code_format.replace('CODE_BLOCK', "\n".join(code_lines))
 	time_end = time.time()
 	total_cost = 'Total cost: `{:.3f} ms` \n'.format((time_end - time_begin) * 1000.0)
 	return total_cost + formats_and_imports(api_key, code_to_format)
+
+
+def param_assignment(test_step):
+	"""
+	Process a test step with an assignment and extract the variable assignment and the assigned value.
+
+	Examples of input:
+		"var req_id = 提交请求"
+		"const req_id = 提交请求"
+		"let req_id = 提交请求"
+
+	:param test_step: str, a string containing the test step
+	:return: tuple ("var req_id =", "提交请求")
+	"""
+	# Define a regex pattern to match variable assignments
+	cleaned_step = re.sub(r".*?\b(var|const|let)\b", r"\1", test_step.strip())
+	pattern = r".*?(var|const|let)\s+\w+\s*=\s*(.+)"
+	match = re.match(pattern, cleaned_step.strip())
+
+	if match:
+		assignment_part = match.group(0).split("=")[0].strip() + " ="
+		value_part = match.group(2).strip()
+		return assignment_part, value_part
+
+	return False, test_step
 
 
 def formats_and_imports(openai_api_key, code_to_format):
