@@ -18,7 +18,7 @@ class SaveRequest(BaseTool):
 class SubmitRequest(BaseTool):
 	name: str = "Tool to submit a request"
 	description: str = (
-		'Use this tool when you are asked to submit a request'
+		'Use this tool to SUBMIT a request'
 	)
 	return_direct: bool = True
 

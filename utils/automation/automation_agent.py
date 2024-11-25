@@ -118,7 +118,7 @@ if __name__ == '__main__':
 	9. 填充 id=REQ.DESCRIPTION 的文本框的值为 'This is a debug request type'
 	10. 点击 id=REQD.P.REPRO_Y 的 radio button
 	11. 添加 note, 内容为：This is a testing request
-	12. 提交请求
+	12. var req_id = 提交请求
 	13. 删除请求req_id
 	"""
 	resp = write_ppm_automation(test_context, os.getenv('OPENAI_API_KEY'))
