@@ -13,8 +13,7 @@ pages = {
 	],
 	"AGENT": [
 		st.Page("menus/csv_analysis_tool.py", title="CSV Tool", icon=":material/table:"),
-		# not completed
-		# st.Page("menus/ppm_automation.py", title="PPM UI Automation", icon=":material/prescriptions:"),
+		st.Page("menus/ppm_automation.py", title="PPM UI Automation", icon=":material/prescriptions:"),
 		st.Page("menus/python_executor.py", title="Python Tool", icon=":material/computer:"),
 		st.Page("menus/calculate_character_number.py", title="Calculate character number", icon=":material/calculate:"),
 	],
