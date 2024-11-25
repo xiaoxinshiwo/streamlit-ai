@@ -6,7 +6,7 @@ from utils.streamlit_utils import openai_key_side_bar
 st.subheader('📝PPM ui automation')
 
 api_key = openai_key_side_bar()
-with st.expander("Examples"):
+with st.expander("Example:"):
 	st.markdown(
 		"""
 		```code
