@@ -31,7 +31,7 @@ class ByPartialClass(BaseTool):
 	def _run(self, tag, clz):
 		tag = get_clean_val(tag)
 		clz = get_clean_val(clz)
-		return f"Selector.byPartialClass('{tag},'{clz}');"
+		return f"Selector.byPartialClass('{tag}','{clz}');"
 
 
 class ByPartialAttribute(BaseTool):

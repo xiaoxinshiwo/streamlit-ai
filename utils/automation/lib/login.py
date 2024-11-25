@@ -13,7 +13,6 @@ class Login(BaseTool):
 	def _run(self):
 		return 'await login(page, PPMURL,"admin","admin");'
 
-
 class LoginLogout(BaseLibClass):
 	@staticmethod
 	def get_tools():

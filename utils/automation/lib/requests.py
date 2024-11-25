@@ -151,7 +151,6 @@ class GetRequestFields(BaseTool):
 		requestId = get_clean_val(requestId)
 		return f"await Requests.getRequestFields(page, {requestId});"
 
-
 class OpenRequestDetailsPage(BaseTool):
 	name: str = "Tool to open the details page of a request"
 	description: str = (
