@@ -27,7 +27,7 @@ def extract_class_constructors(file_path):
 
 if __name__ == '__main__':
 	# Example usage
-	file_path = 'C:\\Users\\YonZhang\\PycharmProjects\\streamlit-ai\\utils\\automation\\lib\\menus.py'
+	file_path = 'C:\\Users\\YonZhang\\PycharmProjects\\streamlit-ai\\utils\\automation\\lib\\requests.py'
 	constructors = extract_class_constructors(file_path)
 	for constructor in constructors:
 		print(constructor, ',')
