@@ -5,69 +5,74 @@ from utils.automation.tools import get_clean_val
 
 
 class ClickButton(BaseTool):
-	name: str = "Tool to generate code to click a button"
+	name: str = "Tool to click a button"
 	description: str = (
-		"Use this tool when you are asked to click a button"
+		'Use this tool when you are asked to click a button'
 		"{'selector': the identity to locate an element, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, selector):
 		selector = get_clean_val(selector)
-		return f'await page.click("{selector}");'
+		return f"await page.click('{selector}');"
 
 
 class SelectDropdownOption(BaseTool):
-	name: str = "Tool to generate code to select a dropdown option"
+	name: str = "Tool to select a dropdown option"
 	description: str = (
-		'Use this tool when you are asked to to select a dropdown option,need to import dependency: import {Ctrls} from "@lib/Ctrls";'
-		"'selector': the identity to locate a dropdown, string type parameter"
-		"'value': the value of a option to be selected, string type parameter"
+		'Use this tool when you are asked to to select a dropdown option'
+		"{'selector': the identity to locate a dropdown, string type parameter}"
+		"{'value': the value of a option to be selected, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, selector, value):
 		selector = get_clean_val(selector)
-		value = get_clean_val(selector)
-		return f'await Ctrls.selectDropdownOption(page,{selector},{value} );'
+		value = get_clean_val(value)
+		return f"await Ctrls.selectDropdownOption(page,'{selector}','{value}' );"
 
 
 class SelectRadio(BaseTool):
-	name: str = "Tool to generate code to click a radio button"
+	name: str = "Tool to click a radio button"
 	description: str = (
 		'Use this tool when you are asked to to click a radio button'
-		"'selector': the identity to locate a dropdown, string type parameter"
+		"{'selector': the identity to locate a dropdown, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, selector):
 		selector = get_clean_val(selector)
-		return f'await page.click("{selector}");'
+		return f"await page.click('{selector}');"
 
 
 class FillInput(BaseTool):
-	name: str = "Tool to generate code to fill value into text box"
+	name: str = "Tool to fill value into text box"
 	description: str = (
 		'Use this tool when you are asked to fill value into text box'
-		"'selector': the identity to locate a text box, string type parameter"
-		"'value': value of a text box, string type parameter"
+		"{'selector': the identity to locate a text box, string type parameter}"
+		"{'value': value of a text box, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, selector, value):
 		selector = get_clean_val(selector)
 		value = get_clean_val(value)
-		return f'await page.fill("{selector}", "{value}");'
+		return f"await page.fill('{selector}', '{value}');"
 
 
 class SelectSingleAcl(BaseTool):
-	name: str = "Tool to generate code to select a single ACL"
+	name: str = "Tool to select a single ACL"
 	description: str = (
 		'Use this tool when you are asked to select a single ACL'
-		"'selector': the identity to locate a single ACL, string type parameter"
-		"'value': value of single ACL, string type parameter"
+		"{'selector': the identity to locate a single ACL, string type parameter}"
+		"{'value': value of single ACL, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, selector, value):
 		selector = get_clean_val(selector)
 		value = get_clean_val(value)
-		return f'await Ctrls.selectSingleAcl(page, "{selector}", "{value}");'
+		return f"await Ctrls.selectSingleAcl(page, '{selector}', '{value}');"
 
 
 class Ctrls(BaseLibClass):

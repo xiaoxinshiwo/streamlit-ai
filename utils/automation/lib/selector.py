@@ -11,6 +11,7 @@ class ByName(BaseTool):
 		" {'tag': the HTML tag, string type parameter}"
 		" {'name': the name attribute, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, tag, name):
 		tag = get_clean_val(tag)
@@ -25,6 +26,7 @@ class ByPartialClass(BaseTool):
 		" {'tag': the HTML tag, string type parameter}"
 		" {'clz': the partial class name, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, tag, clz):
 		tag = get_clean_val(tag)
@@ -40,6 +42,7 @@ class ByPartialAttribute(BaseTool):
 		" {'attributName': the attribute name, string type parameter}"
 		" {'attributeValue': the partial value of the attribute, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, tag, attributName, attributeValue):
 		tag = get_clean_val(tag)
@@ -56,6 +59,7 @@ class ByPartialAttributes(BaseTool):
 		" {'attributName': the attribute name, string type parameter}"
 		" {'attributeValues': a list of partial attribute values, array type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, tag, attributName, attributeValues):
 		tag = get_clean_val(tag)
@@ -71,6 +75,7 @@ class ByPartialText(BaseTool):
 		" {'tag': the HTML tag, string type parameter}"
 		" {'text': the partial text, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, tag, text):
 		tag = get_clean_val(tag)
@@ -85,6 +90,7 @@ class ByPartialTexts(BaseTool):
 		" {'tag': the HTML tag, string type parameter}"
 		" {'texts': a list of partial texts, array type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, tag, texts):
 		tag = get_clean_val(tag)
@@ -100,6 +106,7 @@ class ByFullText(BaseTool):
 		" {'tag': the HTML tag, string type parameter}"
 		" {'text': the exact text, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, tag, text):
 		tag = get_clean_val(tag)
@@ -115,6 +122,7 @@ class ByFullAttribute(BaseTool):
 		" {'attributeName': the attribute name, string type parameter}"
 		" {'attributeValue': the exact value of the attribute, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, tag, attributeName, attributeValue):
 		tag = get_clean_val(tag)
@@ -129,6 +137,7 @@ class ByHref(BaseTool):
 		"Use this tool to generate a selector by href attribute."
 		" {'href': the href value, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, href):
 		href = get_clean_val(href)
@@ -141,6 +150,7 @@ class ByLast(BaseTool):
 		"Use this tool to generate a selector for the last element of a given selector."
 		" {'selector': the base selector, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, selector):
 		selector = get_clean_val(selector)

@@ -2,17 +2,29 @@ from langchain_core.prompts import ChatPromptTemplate
 
 auto_prompt = """
 You are a testing expert and will be asked to write some automated test cases based on the playwright framework.
-The user will enter a series of test steps. 
-Here is the rules to convert test steps into test cases:
-1. Please analyze the test steps one by one and generate the code.
-2. Import playwright test dependency: import { test, expect } from '@playwright/test';
-3. Final answer: remove duplicate imports, and return the typescript markdown format code as response.
-The test steps entered by the user are as follows:
+
+Output:
+Provide only the TypeScript code in the output, no additional text or explanations.
+
+The test step:
+"""
+
+format_prompt ="""
+You are a testing expert and will be asked to write some automated test cases based on the playwright framework.
+1. Import playwright test dependency: 
+	import { test, expect } from '@playwright/test';
+	import {login} from "@lib/Login"; import {PPMURL} from "@config";
+2. Add other imports:
+	For example if the code block contains 'await Requests' import dependency: import {Requests} from "@lib/Requests";
+	For example if the code block contains 'await Ctrls' import dependency: import {Ctrls} from "@lib/Ctrls";
+3. Final answer: remove duplicated and unused imports,no additional text or explanations.
+Code block is:
+
 """
 
 # hwchase17/react-json
 agent_prompt = ChatPromptTemplate.from_messages([
-	("system", """ "Answer the following questions as best you can. You have access to the following tools:
+	("system", """ "You are a helpful code assistant that convert the comment to code block. Don't explain the code, just generate the code block itself. You have access to the following tools:
 
 {tools}
 

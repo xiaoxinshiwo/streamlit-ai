@@ -5,9 +5,9 @@ from utils.automation.tools import get_clean_val
 
 
 class OpenDashboardPrivatePage(BaseTool):
-	name: str = "Tool to generate code to open open a private dashboard page"
+	name: str = "Tool to  open open a private dashboard page"
 	description: str = (
-		"Use this Tool to generate code to open open a private dashboard page. "
+		"Use this Tool to  open open a private dashboard page. "
 		"Parameters: {'pageName': the name of the page to open, string type parameter}"
 	)
 
@@ -17,9 +17,9 @@ class OpenDashboardPrivatePage(BaseTool):
 
 
 class OpenPersonalizeDashboard(BaseTool):
-	name: str = "Tool to generate code to open personalize the dashboard"
+	name: str = "Tool to  open personalize the dashboard"
 	description: str = (
-		"Use this Tool to generate code to open open the personalization menu for the dashboard."
+		"Use this Tool to  open open the personalization menu for the dashboard."
 	)
 
 	def _run(self):
@@ -27,9 +27,9 @@ class OpenPersonalizeDashboard(BaseTool):
 
 
 class OpenSearchRequest(BaseTool):
-	name: str = "Tool to generate code to open open the search request page"
+	name: str = "Tool to  open open the search request page"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the search request page."
+		"Use this Tool to  open navigate to the search request page."
 	)
 
 	def _run(self):
@@ -37,9 +37,9 @@ class OpenSearchRequest(BaseTool):
 
 
 class OpenManageSavedSearches(BaseTool):
-	name: str = "Tool to generate code to open manage saved searches"
+	name: str = "Tool to  open manage saved searches"
 	description: str = (
-		"Use this Tool to generate code to open open the Manage Saved Searches page."
+		"Use this Tool to  open open the Manage Saved Searches page."
 	)
 
 	def _run(self):
@@ -47,9 +47,9 @@ class OpenManageSavedSearches(BaseTool):
 
 
 class OpenSearchProject(BaseTool):
-	name: str = "Tool to generate code to open search for projects"
+	name: str = "Tool to  open search for projects"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the search project page."
+		"Use this Tool to  open navigate to the search project page."
 	)
 
 	def _run(self):
@@ -57,9 +57,9 @@ class OpenSearchProject(BaseTool):
 
 
 class OpenCreateRequest(BaseTool):
-	name: str = "Tool to generate code to open Create Request page"
+	name: str = "Tool to  open Create Request page"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create Request page."
+		"Use this Tool to  open navigate to the Create Request page."
 	)
 
 	def _run(self):
@@ -67,9 +67,9 @@ class OpenCreateRequest(BaseTool):
 
 
 class OpenCreateProjectIssue(BaseTool):
-	name: str = "Tool to generate code to open create a project issue"
+	name: str = "Tool to  open create a project issue"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Submit Project Issue page."
+		"Use this Tool to  open navigate to the Submit Project Issue page."
 	)
 
 	def _run(self):
@@ -77,9 +77,9 @@ class OpenCreateProjectIssue(BaseTool):
 
 
 class OpenCreateRegion(BaseTool):
-	name: str = "Tool to generate code to open create a region"
+	name: str = "Tool to  open create a region"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create Region page in the Admin Console."
+		"Use this Tool to  open navigate to the Create Region page in the Admin Console."
 	)
 
 	def _run(self):
@@ -87,9 +87,9 @@ class OpenCreateRegion(BaseTool):
 
 
 class OpenCreateProposal(BaseTool):
-	name: str = "Tool to generate code to open create a proposal"
+	name: str = "Tool to  open create a proposal"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create Proposal page."
+		"Use this Tool to  open navigate to the Create Proposal page."
 	)
 
 	def _run(self):
@@ -97,9 +97,9 @@ class OpenCreateProposal(BaseTool):
 
 
 class OpenCreateResourcepool(BaseTool):
-	name: str = "Tool to generate code to open create a resource pool"
+	name: str = "Tool to  open create a resource pool"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create Resource Pool page."
+		"Use this Tool to  open navigate to the Create Resource Pool page."
 	)
 
 	def _run(self):
@@ -107,9 +107,9 @@ class OpenCreateResourcepool(BaseTool):
 
 
 class OpenCreateRole(BaseTool):
-	name: str = "Tool to generate code to open create a role"
+	name: str = "Tool to  open create a role"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create Role page."
+		"Use this Tool to  open navigate to the Create Role page."
 	)
 
 	def _run(self):
@@ -117,9 +117,9 @@ class OpenCreateRole(BaseTool):
 
 
 class OpenCreateBilling(BaseTool):
-	name: str = "Tool to generate code to open create billing"
+	name: str = "Tool to  open create billing"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create Billing page."
+		"Use this Tool to  open navigate to the Create Billing page."
 	)
 
 	def _run(self):
@@ -127,9 +127,9 @@ class OpenCreateBilling(BaseTool):
 
 
 class OpenCreateAdminConsoleRole(BaseTool):
-	name: str = "Tool to generate code to open create an admin console role"
+	name: str = "Tool to  open create an admin console role"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create Admin Console Role page."
+		"Use this Tool to  open navigate to the Create Admin Console Role page."
 	)
 
 	def _run(self):
@@ -137,9 +137,9 @@ class OpenCreateAdminConsoleRole(BaseTool):
 
 
 class OpenCreateAdminConsoleUser(BaseTool):
-	name: str = "Tool to generate code to open create an admin console user"
+	name: str = "Tool to  open create an admin console user"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create Admin Console User page."
+		"Use this Tool to  open navigate to the Create Admin Console User page."
 	)
 
 	def _run(self):
@@ -147,9 +147,9 @@ class OpenCreateAdminConsoleUser(BaseTool):
 
 
 class OpenEditAdminConsoleUser(BaseTool):
-	name: str = "Tool to generate code to open edit an admin console user"
+	name: str = "Tool to  open edit an admin console user"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Edit Admin Console User page."
+		"Use this Tool to  open navigate to the Edit Admin Console User page."
 	)
 
 	def _run(self):
@@ -157,9 +157,9 @@ class OpenEditAdminConsoleUser(BaseTool):
 
 
 class OpenManageUsers(BaseTool):
-	name: str = "Tool to generate code to open manage users"
+	name: str = "Tool to  open manage users"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Users page in the Admin Console."
+		"Use this Tool to  open navigate to the Manage Users page in the Admin Console."
 	)
 
 	def _run(self):
@@ -167,9 +167,9 @@ class OpenManageUsers(BaseTool):
 
 
 class OpenManageRoles(BaseTool):
-	name: str = "Tool to generate code to open manage roles"
+	name: str = "Tool to  open manage roles"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Roles page in the Admin Console."
+		"Use this Tool to  open navigate to the Manage Roles page in the Admin Console."
 	)
 
 	def _run(self):
@@ -177,9 +177,9 @@ class OpenManageRoles(BaseTool):
 
 
 class OpenManageRegions(BaseTool):
-	name: str = "Tool to generate code to open manage regions"
+	name: str = "Tool to  open manage regions"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Regions page in the Admin Console."
+		"Use this Tool to  open navigate to the Manage Regions page in the Admin Console."
 	)
 
 	def _run(self):
@@ -187,9 +187,9 @@ class OpenManageRegions(BaseTool):
 
 
 class OpenManageProjects(BaseTool):
-	name: str = "Tool to generate code to open manage projects"
+	name: str = "Tool to  open manage projects"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Projects page."
+		"Use this Tool to  open navigate to the Manage Projects page."
 	)
 
 	def _run(self):
@@ -197,9 +197,9 @@ class OpenManageProjects(BaseTool):
 
 
 class OpenViewBilling(BaseTool):
-	name: str = "Tool to generate code to open view billing details"
+	name: str = "Tool to  open view billing details"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the View Billing Details page."
+		"Use this Tool to  open navigate to the View Billing Details page."
 	)
 
 	def _run(self):
@@ -207,9 +207,9 @@ class OpenViewBilling(BaseTool):
 
 
 class OpenViewResourcePool(BaseTool):
-	name: str = "Tool to generate code to open view resource pools"
+	name: str = "Tool to  open view resource pools"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the View Resource Pools page."
+		"Use this Tool to  open navigate to the View Resource Pools page."
 	)
 
 	def _run(self):
@@ -217,9 +217,9 @@ class OpenViewResourcePool(BaseTool):
 
 
 class OpenViewProposal(BaseTool):
-	name: str = "Tool to generate code to open view proposals"
+	name: str = "Tool to  open view proposals"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the View Proposals page."
+		"Use this Tool to  open navigate to the View Proposals page."
 	)
 
 	def _run(self):
@@ -227,9 +227,9 @@ class OpenViewProposal(BaseTool):
 
 
 class OpenViewSubscription(BaseTool):
-	name: str = "Tool to generate code to open view subscription details"
+	name: str = "Tool to  open view subscription details"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the View Subscription Details page."
+		"Use this Tool to  open navigate to the View Subscription Details page."
 	)
 
 	def _run(self):
@@ -237,9 +237,9 @@ class OpenViewSubscription(BaseTool):
 
 
 class OpenViewUsage(BaseTool):
-	name: str = "Tool to generate code to open view usage details"
+	name: str = "Tool to  open view usage details"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the View Usage page."
+		"Use this Tool to  open navigate to the View Usage page."
 	)
 
 	def _run(self):
@@ -247,9 +247,9 @@ class OpenViewUsage(BaseTool):
 
 
 class OpenManageNotifications(BaseTool):
-	name: str = "Tool to generate code to open manage notifications"
+	name: str = "Tool to  open manage notifications"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Notifications page."
+		"Use this Tool to  open navigate to the Manage Notifications page."
 	)
 
 	def _run(self):
@@ -257,9 +257,9 @@ class OpenManageNotifications(BaseTool):
 
 
 class OpenManageAuditLogs(BaseTool):
-	name: str = "Tool to generate code to open manage audit logs"
+	name: str = "Tool to  open manage audit logs"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Audit Logs page."
+		"Use this Tool to  open navigate to the Manage Audit Logs page."
 	)
 
 	def _run(self):
@@ -267,9 +267,9 @@ class OpenManageAuditLogs(BaseTool):
 
 
 class OpenManageSecurity(BaseTool):
-	name: str = "Tool to generate code to open manage security settings"
+	name: str = "Tool to  open manage security settings"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Security Settings page."
+		"Use this Tool to  open navigate to the Manage Security Settings page."
 	)
 
 	def _run(self):
@@ -277,9 +277,9 @@ class OpenManageSecurity(BaseTool):
 
 
 class OpenManageIdentity(BaseTool):
-	name: str = "Tool to generate code to open manage identity settings"
+	name: str = "Tool to  open manage identity settings"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Identity Settings page."
+		"Use this Tool to  open navigate to the Manage Identity Settings page."
 	)
 
 	def _run(self):
@@ -287,9 +287,9 @@ class OpenManageIdentity(BaseTool):
 
 
 class OpenManageDomains(BaseTool):
-	name: str = "Tool to generate code to open manage domains"
+	name: str = "Tool to  open manage domains"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Domains page."
+		"Use this Tool to  open navigate to the Manage Domains page."
 	)
 
 	def _run(self):
@@ -297,9 +297,9 @@ class OpenManageDomains(BaseTool):
 
 
 class OpenManageAccountSettings(BaseTool):
-	name: str = "Tool to generate code to open manage account settings"
+	name: str = "Tool to  open manage account settings"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage Account Settings page."
+		"Use this Tool to  open navigate to the Manage Account Settings page."
 	)
 
 	def _run(self):
@@ -307,9 +307,9 @@ class OpenManageAccountSettings(BaseTool):
 
 
 class OpenCreateAPIKey(BaseTool):
-	name: str = "Tool to generate code to open create an API key page"
+	name: str = "Tool to  open create an API key page"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Create API Key page."
+		"Use this Tool to  open navigate to the Create API Key page."
 	)
 
 	def _run(self):
@@ -317,9 +317,9 @@ class OpenCreateAPIKey(BaseTool):
 
 
 class OpenManageAPIKeys(BaseTool):
-	name: str = "Tool to generate code to open manage API keys"
+	name: str = "Tool to  open manage API keys"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the Manage API Keys page."
+		"Use this Tool to  open navigate to the Manage API Keys page."
 	)
 
 	def _run(self):
@@ -327,9 +327,9 @@ class OpenManageAPIKeys(BaseTool):
 
 
 class OpenViewReports(BaseTool):
-	name: str = "Tool to generate code to open view reports"
+	name: str = "Tool to  open view reports"
 	description: str = (
-		"Use this Tool to generate code to open navigate to the View Reports page."
+		"Use this Tool to  open navigate to the View Reports page."
 	)
 
 	def _run(self):
@@ -352,23 +352,23 @@ class Menus(BaseLibClass):
 			OpenCreateResourcepool(),
 			OpenCreateRole(),
 			OpenCreateBilling(),
-			# OpenCreateAdminConsoleRole(),
-			# OpenCreateAdminConsoleUser(),
-			# OpenEditAdminConsoleUser(),
-			# OpenManageUsers(),
-			# OpenManageRoles(),
-			# OpenManageRegions(),
-			# OpenManageProjects(),
-			# OpenViewBilling(),
-			# OpenViewResourcePool(),
-			# OpenViewProposal(),
-			# OpenViewSubscription(),
-			# OpenViewUsage(),
-			# OpenManageNotifications(),
-			# OpenManageAuditLogs(),
-			# OpenManageSecurity(),
-			# OpenManageIdentity(),
-			# OpenManageDomains(),
+			OpenCreateAdminConsoleRole(),
+			OpenCreateAdminConsoleUser(),
+			OpenEditAdminConsoleUser(),
+			OpenManageUsers(),
+			OpenManageRoles(),
+			OpenManageRegions(),
+			OpenManageProjects(),
+			OpenViewBilling(),
+			OpenViewResourcePool(),
+			OpenViewProposal(),
+			OpenViewSubscription(),
+			OpenViewUsage(),
+			OpenManageNotifications(),
+			OpenManageAuditLogs(),
+			OpenManageSecurity(),
+			OpenManageIdentity(),
+			OpenManageDomains(),
 			OpenManageAccountSettings(),
 			OpenCreateAPIKey(),
 			OpenManageAPIKeys(),

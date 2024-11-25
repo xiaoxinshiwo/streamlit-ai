@@ -5,31 +5,34 @@ from utils.automation.tools import get_clean_val
 
 
 class SaveRequest(BaseTool):
-	name: str = "Tool to generate code to save a request"
+	name: str = "Tool to save a request"
 	description: str = (
-		'Use this tool when you are asked to save a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to save a request'
 	)
+	return_direct: bool = True
 
 	def _run(self):
 		return "await Requests.saveRequest(page);"
 
 
 class SubmitRequest(BaseTool):
-	name: str = "Tool to generate code to submit a request"
+	name: str = "Tool to submit a request"
 	description: str = (
-		'Use this tool when you are asked to submit a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to submit a request'
 	)
+	return_direct: bool = True
 
 	def _run(self):
 		return "await Requests.submitRequest(page);"
 
 
 class CreateRequest(BaseTool):
-	name: str = "Tool to generate code to create a request of a specific type"
+	name: str = "Tool to create a request of a specific type"
 	description: str = (
-		'Use this tool when you are asked to create a request  of a specific type, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to create a request  of a specific type'
 		"'request_type': the type of a request, string type parameter"
 	)
+	return_direct: bool = True
 
 	def _run(self, request_type):
 		request_type = get_clean_val(request_type)
@@ -37,11 +40,12 @@ class CreateRequest(BaseTool):
 
 
 class DeleteRequest(BaseTool):
-	name: str = "Tool to generate code to delete a request"
+	name: str = "Tool to delete a request"
 	description: str = (
-		'Use this tool when you are asked to delete a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to delete a request'
 		"{'request_id': the id of a request, number type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, request_id):
 		request_id = get_clean_val(request_id)
@@ -49,11 +53,12 @@ class DeleteRequest(BaseTool):
 
 
 class AddNote(BaseTool):
-	name: str = "Tool to generate code to add note to a request"
+	name: str = "Tool to add note"
 	description: str = (
-		'Use this tool when you are asked to add note to a request, need to import dependency: import {Requests} from "@lib/Requests";'
-		"'note': the content, string type parameter"
+		'Use this tool when you are asked to add note'
+		"{'note': the content, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, note):
 		note = get_clean_val(note)
@@ -61,24 +66,25 @@ class AddNote(BaseTool):
 
 
 class ClickWorkflowAction(BaseTool):
-	name: str = "Tool to generate code to click workflow button"
+	name: str = "Tool to click workflow button"
 	description: str = (
-		'Use this tool when you are asked to click workflow button, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to click workflow button'
 		"{'action':  the name of workflow button, string type parameter}"
 	)
+	return_direct: bool = True
 
 	def _run(self, action):
 		action = get_clean_val(action)
 		return f"await Requests.clickWfAction(page, '{action}');"
 
 
-
 class UpdateRequest(BaseTool):
 	name: str = "Tool to generate code for updating a request"
 	description: str = (
-		'Use this tool when you are asked to update a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to update a request'
 		"{'requestFields': an array of fields to update}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestFields):
 		requestFields = get_clean_val(requestFields)
@@ -86,10 +92,11 @@ class UpdateRequest(BaseTool):
 
 
 class ContinueWfConfirm(BaseTool):
-	name: str = "Tool to generate code to confirm workflow continuation"
+	name: str = "Tool to confirm workflow continuation"
 	description: str = (
-		'Use this tool when you are asked to continue workflow confirmation, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to continue workflow confirmation'
 	)
+	return_direct: bool = True
 
 	def _run(self):
 		return f"await Requests.continueWfConfirm(page);"
@@ -98,31 +105,34 @@ class ContinueWfConfirm(BaseTool):
 class DeleteRequests(BaseTool):
 	name: str = "Tool to delete multiple requests"
 	description: str = (
-		'Use this tool when you are asked to delete multiple requests, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to delete multiple requests'
 		"{'requestIds': an array of request IDs}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestIds):
 		requestIds = get_clean_val(requestIds)
 		return f"await Requests.deleteRequests(page, {requestIds});"
 
 
-# class DeleteRequestOnRequestDetailPage(BaseTool):
-# 	name: str = "Tool to generate code to delete request on request detail page"
-# 	description: str = (
-# 		'Use this tool when you are asked to delete request on request detail page, need to import dependency: import {Requests} from "@lib/Requests";'
-# 	)
-#
-# 	def _run(self):
-# 		return "await Requests.deleteRequestOnRequestDetailPage(page);"
+class DeleteRequestOnRequestDetailPage(BaseTool):
+	name: str = "Tool to delete request on request detail page"
+	description: str = (
+		'Use this tool when you are asked to delete request on request detail page'
+	)
+	return_direct: bool = True
+
+	def _run(self):
+		return "await Requests.deleteRequestOnRequestDetailPage(page);"
 
 
 class GetRequestStatus(BaseTool):
 	name: str = "Tool to get the status of a request"
 	description: str = (
-		'Use this tool when you are asked to fetch the status of a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to fetch the status of a request'
 		"{'requestId': ID of the request}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestId):
 		requestId = get_clean_val(requestId)
@@ -132,9 +142,10 @@ class GetRequestStatus(BaseTool):
 class GetRequestFields(BaseTool):
 	name: str = "Tool to fetch the fields of a request"
 	description: str = (
-		'Use this tool when you are asked to fetch the fields of a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to fetch the fields of a request'
 		"{'requestId': ID of the request}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestId):
 		requestId = get_clean_val(requestId)
@@ -144,9 +155,10 @@ class GetRequestFields(BaseTool):
 class OpenRequestDetailsPage(BaseTool):
 	name: str = "Tool to open the details page of a request"
 	description: str = (
-		'Use this tool when you are asked to navigate to the request details page, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to navigate to the request details page'
 		"{'requestId': ID of the request}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestId):
 		requestId = get_clean_val(requestId)
@@ -156,9 +168,10 @@ class OpenRequestDetailsPage(BaseTool):
 class CancelRequest(BaseTool):
 	name: str = "Tool to cancel a request"
 	description: str = (
-		'Use this tool when you are asked to cancel a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to cancel a request'
 		"{'requestId': ID of the request, 'cancelReason': reason for cancellation}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestId, cancelReason):
 		requestId = get_clean_val(requestId)
@@ -169,9 +182,10 @@ class CancelRequest(BaseTool):
 class ApproveRequest(BaseTool):
 	name: str = "Tool to approve a request"
 	description: str = (
-		'Use this tool when you are asked to approve a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to approve a request'
 		"{'requestId': ID of the request, 'approveOptions': additional options}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestId, approveOptions=None):
 		requestId = get_clean_val(requestId)
@@ -182,9 +196,10 @@ class ApproveRequest(BaseTool):
 class RejectRequest(BaseTool):
 	name: str = "Tool to reject a request"
 	description: str = (
-		'Use this tool when you are asked to reject a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to reject a request'
 		"{'requestId': ID of the request, 'rejectReason': reason for rejection}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestId, rejectReason):
 		requestId = get_clean_val(requestId)
@@ -195,9 +210,10 @@ class RejectRequest(BaseTool):
 class SearchRequests(BaseTool):
 	name: str = "Tool to search for requests"
 	description: str = (
-		'Use this tool when you are asked to search for requests, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to search for requests'
 		"{'searchCriteria': criteria to search for requests}"
 	)
+	return_direct: bool = True
 
 	def _run(self, searchCriteria):
 		searchCriteria = get_clean_val(searchCriteria)
@@ -207,9 +223,10 @@ class SearchRequests(BaseTool):
 class ArchiveRequest(BaseTool):
 	name: str = "Tool to archive a request"
 	description: str = (
-		'Use this tool when you are asked to archive a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you are asked to archive a request'
 		"{'requestId': ID of the request}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestId):
 		requestId = get_clean_val(requestId)
@@ -219,9 +236,10 @@ class ArchiveRequest(BaseTool):
 class AddAttachmentToRequest(BaseTool):
 	name: str = "Tool to add attachment to a request"
 	description: str = (
-		'Use this tool when you need to add an attachment to a request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to add an attachment to a request'
 		"{'filePath': file to attach, 'refRequestType': optional request type, 'addRefElementSelector': optional reference element selector}"
 	)
+	return_direct: bool = True
 
 	def _run(self, filePath, refRequestType=None, addRefElementSelector=None):
 		filePath = get_clean_val(filePath)
@@ -234,9 +252,10 @@ class AddAttachmentToRequest(BaseTool):
 class AddAttachmentToRequestFromRequestTypeFieldsBlock(BaseTool):
 	name: str = "Tool to add attachment from request type fields block"
 	description: str = (
-		'Use this tool when you need to add an attachment from the request type fields block, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to add an attachment from the request type fields block'
 		"{'filePath': file to attach, 'description': optional description}"
 	)
+	return_direct: bool = True
 
 	def _run(self, filePath, description=None):
 		filePath = get_clean_val(filePath)
@@ -247,9 +266,10 @@ class AddAttachmentToRequestFromRequestTypeFieldsBlock(BaseTool):
 class DeleteAttachmentOnRequestFromRequestTypeFieldsBlock(BaseTool):
 	name: str = "Tool to delete attachment from request type fields block"
 	description: str = (
-		'Use this tool when you need to delete an attachment from the request type fields block, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to delete an attachment from the request type fields block'
 		"{'page': the page object}"
 	)
+	return_direct: bool = True
 
 	def _run(self):
 		return f"await Requests.deleteAttachmentOnRequestFromRequestTypeFieldsBlock(page);"
@@ -258,9 +278,10 @@ class DeleteAttachmentOnRequestFromRequestTypeFieldsBlock(BaseTool):
 class ChooseColumnsFromLeft(BaseTool):
 	name: str = "Tool to choose columns from left list"
 	description: str = (
-		'Use this tool when you need to choose columns from the left list, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to choose columns from the left list'
 		"{'chooseLeftArray': array of column names to choose}"
 	)
+	return_direct: bool = True
 
 	def _run(self, chooseLeftArray):
 		chooseLeftArray = get_clean_val(chooseLeftArray)
@@ -270,9 +291,10 @@ class ChooseColumnsFromLeft(BaseTool):
 class ProceedWorkFlow(BaseTool):
 	name: str = "Tool to proceed with the workflow"
 	description: str = (
-		'Use this tool when you need to proceed with the workflow, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to proceed with the workflow'
 		"{'workflowBtnSelector': button selector, 'nextStageWorkFlowStatus': expected next stage workflow status}"
 	)
+	return_direct: bool = True
 
 	def _run(self, workflowBtnSelector, nextStageWorkFlowStatus):
 		return f"await Requests.proceedWorkFlow(page, {workflowBtnSelector}, {nextStageWorkFlowStatus});"
@@ -281,9 +303,10 @@ class ProceedWorkFlow(BaseTool):
 class AssertStatusCorrect(BaseTool):
 	name: str = "Tool to assert the status is correct"
 	description: str = (
-		'Use this tool when you need to assert the status of the request is correct, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to assert the status of the request is correct'
 		"{'statusSelector': status selector, 'expectStatus': expected status}"
 	)
+	return_direct: bool = True
 
 	def _run(self, statusSelector, expectStatus):
 		return f"await Requests.assertStatusCorrect(page, {statusSelector}, {expectStatus});"
@@ -292,9 +315,10 @@ class AssertStatusCorrect(BaseTool):
 class ValidateNote(BaseTool):
 	name: str = "Tool to validate the note in the request"
 	description: str = (
-		'Use this tool when you need to validate the note in the request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to validate the note in the request'
 		"{'noteValidationModel': note validation object, 'rowNumber': optional row number to validate}"
 	)
+	return_direct: bool = True
 
 	def _run(self, noteValidationModel, rowNumber=1):
 		return f"await Requests.validateNote(page, {noteValidationModel}, {rowNumber});"
@@ -303,9 +327,10 @@ class ValidateNote(BaseTool):
 class FillTableFields(BaseTool):
 	name: str = "Tool to fill the table fields"
 	description: str = (
-		'Use this tool when you need to fill table fields, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to fill table fields'
 		"{'goToView': optional flag to go to view after filling the table}"
 	)
+	return_direct: bool = True
 
 	def _run(self, goToView=True):
 		return f"await Requests.fillTableFields(page, {goToView});"
@@ -314,9 +339,10 @@ class FillTableFields(BaseTool):
 class AddLink(BaseTool):
 	name: str = "Tool to add a link to the request"
 	description: str = (
-		'Use this tool when you need to add a link to the request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to add a link to the request'
 		"{'addLinkBtnSelector': button selector to add link, 'link': the link to add}"
 	)
+	return_direct: bool = True
 
 	def _run(self, addLinkBtnSelector, link):
 		return f"await Requests.addLink(page, {addLinkBtnSelector}, {link});"
@@ -325,9 +351,10 @@ class AddLink(BaseTool):
 class AddPassword(BaseTool):
 	name: str = "Tool to add a password to the request"
 	description: str = (
-		'Use this tool when you need to add a password to the request, need to import dependency: import {Requests} from "@lib/Requests";'
+		'Use this tool when you need to add a password to the request'
 		"{'addPasswordBtnSelector': button selector to add password, 'password': the password to add}"
 	)
+	return_direct: bool = True
 
 	def _run(self, addPasswordBtnSelector, password):
 		return f"await Requests.addPassword(page, {addPasswordBtnSelector}, {password});"
@@ -340,6 +367,7 @@ class AddResourceViaAssignedToField(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'firstName': resource first name, 'lastName': resource last name, 'searchResultRowNumber': row number to select, 'isNeedSave': flag to save the request}"
 	)
+	return_direct: bool = True
 
 	def _run(self, firstName, lastName, searchResultRowNumber=1, isNeedSave=True):
 		firstName = get_clean_val(firstName)
@@ -354,6 +382,7 @@ class AddResourceViaAutoUserIdField(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'firstName': resource first name, 'lastName': resource last name, 'searchResultRowNumber': row number to select, 'isNeedSave': flag to save the request}"
 	)
+	return_direct: bool = True
 
 	def _run(self, firstName, lastName, searchResultRowNumber=1, isNeedSave=True):
 		firstName = get_clean_val(firstName)
@@ -368,6 +397,7 @@ class AddResourceViaAutoUserNameField(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'firstName': resource first name, 'lastName': resource last name, 'searchResultRowNumber': row number to select, 'isNeedSave': flag to save the request}"
 	)
+	return_direct: bool = True
 
 	def _run(self, firstName, lastName, searchResultRowNumber=1, isNeedSave=True):
 		firstName = get_clean_val(firstName)
@@ -382,6 +412,7 @@ class CheckIsResourceExists(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'firstName': resource first name, 'lastName': resource last name}"
 	)
+	return_direct: bool = True
 
 	def _run(self, firstName, lastName):
 		firstName = get_clean_val(firstName)
@@ -396,6 +427,7 @@ class AddResource(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'firstName': resource first name, 'lastName': resource last name, 'searchResultRowNumber': row number to select}"
 	)
+	return_direct: bool = True
 
 	def _run(self, firstName, lastName, searchResultRowNumber=1):
 		firstName = get_clean_val(firstName)
@@ -410,6 +442,7 @@ class IsResourceExists(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'firstName': resource first name, 'lastName': resource last name, 'rowNumber': optional row number to check}"
 	)
+	return_direct: bool = True
 
 	def _run(self, firstName, lastName, rowNumber=None):
 		firstName = get_clean_val(firstName)
@@ -425,6 +458,7 @@ class ValidateAddedResource(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'requestResourceFill': resource data model, 'rowNumber': row number to validate}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestResourceFill, rowNumber=None):
 		requestResourceFill = get_clean_val(requestResourceFill)
@@ -439,6 +473,7 @@ class FillResourceContent(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'contentModel': the resource data model, 'rowNumber': optional row number to fill}"
 	)
+	return_direct: bool = True
 
 	def _run(self, contentModel, rowNumber=1):
 		contentModel = get_clean_val(contentModel)
@@ -451,6 +486,7 @@ class VerifyResourceInfoWithRequestsFields(BaseTool):
 		'Use this tool to verify resource overall info with request fields, '
 		'import dependency: import {Requests} from "@lib/Requests"; '
 	)
+	return_direct: bool = True
 
 	def _run(self):
 		return f"await Requests.verifyResourceOverallInfoWithRequestsFields(page);"
@@ -463,6 +499,7 @@ class DeleteResource(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'rowNumber': row number to delete}"
 	)
+	return_direct: bool = True
 
 	def _run(self, rowNumber=1):
 		rowNumber = get_clean_val(rowNumber)
@@ -476,6 +513,7 @@ class AddAttachment(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'addFileBtnSelector': selector for the add file button, 'filePath': file path to attach}"
 	)
+	return_direct: bool = True
 
 	def _run(self, addFileBtnSelector, filePath):
 		addFileBtnSelector = get_clean_val(addFileBtnSelector)
@@ -490,6 +528,7 @@ class SelectRequestsToMassEdit(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'requestIds': list of request IDs}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestIds):
 		requestIds = get_clean_val(requestIds)
@@ -503,6 +542,7 @@ class SelectRequestsToDelete(BaseTool):
 		'import dependency: import {Requests} from "@lib/Requests"; '
 		"{'requestIds': list of request IDs}"
 	)
+	return_direct: bool = True
 
 	def _run(self, requestIds):
 		requestIds = get_clean_val(requestIds)
@@ -522,7 +562,7 @@ class Requests(BaseLibClass):
 			UpdateRequest(),
 			ContinueWfConfirm(),
 			DeleteRequests(),
-			# DeleteRequestOnRequestDetailPage(),
+			DeleteRequestOnRequestDetailPage(),
 			GetRequestStatus(),
 			GetRequestFields(),
 			OpenRequestDetailsPage(),
@@ -531,27 +571,27 @@ class Requests(BaseLibClass):
 			RejectRequest(),
 			SearchRequests(),
 			ArchiveRequest(),
-			# AddAttachmentToRequest(),
-			# AddAttachmentToRequestFromRequestTypeFieldsBlock(),
-			# DeleteAttachmentOnRequestFromRequestTypeFieldsBlock(),
-			# ChooseColumnsFromLeft(),
-			# ProceedWorkFlow(),
-			# AssertStatusCorrect(),
-			# ValidateNote(),
-			# FillTableFields(),
-			# AddLink(),
-			# AddPassword(),
-			# AddResourceViaAssignedToField(),
-			# AddResourceViaAutoUserIdField(),
-			# AddResourceViaAutoUserNameField(),
-			# CheckIsResourceExists(),
-			# AddResource(),
-			# IsResourceExists(),
-			# ValidateAddedResource(),
-			# FillResourceContent(),
-			# VerifyResourceInfoWithRequestsFields(),
-			# DeleteResource(),
-			# AddAttachment(),
-			# SelectRequestsToMassEdit(),
-			# SelectRequestsToDelete(),
+			AddAttachmentToRequest(),
+			AddAttachmentToRequestFromRequestTypeFieldsBlock(),
+			DeleteAttachmentOnRequestFromRequestTypeFieldsBlock(),
+			ChooseColumnsFromLeft(),
+			ProceedWorkFlow(),
+			AssertStatusCorrect(),
+			ValidateNote(),
+			FillTableFields(),
+			AddLink(),
+			AddPassword(),
+			AddResourceViaAssignedToField(),
+			AddResourceViaAutoUserIdField(),
+			AddResourceViaAutoUserNameField(),
+			CheckIsResourceExists(),
+			AddResource(),
+			IsResourceExists(),
+			ValidateAddedResource(),
+			FillResourceContent(),
+			VerifyResourceInfoWithRequestsFields(),
+			DeleteResource(),
+			AddAttachment(),
+			SelectRequestsToMassEdit(),
+			SelectRequestsToDelete(),
 		]
