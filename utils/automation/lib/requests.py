@@ -55,7 +55,7 @@ class DeleteRequest(BaseTool):
 class AddNote(BaseTool):
 	name: str = "Tool to add note"
 	description: str = (
-		'Use this tool when you are asked to add note'
+		'Use this tool when you are asked to ADD NOTE'
 		"{'note': the content, string type parameter}"
 	)
 	return_direct: bool = True

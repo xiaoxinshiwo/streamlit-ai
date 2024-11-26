@@ -91,7 +91,7 @@ def single_step_agent(test_step, api_key):
 	try:
 		agent_executor = AgentExecutor.from_agent_and_tools(
 			agent=agent, tools=tools, verbose=True, handle_parsing_errors=True, early_stopping_method="generate",
-			max_iterations=2
+			max_iterations=1
 		)
 		response = agent_executor.invoke({"input": automation_prompt.auto_prompt + test_step})
 	except Exception as error:

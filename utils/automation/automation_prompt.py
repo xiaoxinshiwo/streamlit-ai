@@ -9,7 +9,7 @@ Provide only the TypeScript code in the output, no additional text or explanatio
 The test step:
 """
 
-format_prompt ="""
+format_prompt = """
 You are a testing expert and will be asked to write some automated test cases based on the playwright framework.
 1. Import playwright test dependency: 
 	import { test, expect } from '@playwright/test';
@@ -60,8 +60,8 @@ Action:
   "action_input": "Final response to human"
 }}
 
-Begin! Reminder to always use the exact characters `Final Answer` when responding."),
-  ("human", "{input}
+Begin! Reminder to always use the exact characters `Final Answer` when responding."
+  "human:", "{input}
 
 {agent_scratchpad}"
  """
