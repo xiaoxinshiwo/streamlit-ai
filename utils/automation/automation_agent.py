@@ -74,7 +74,8 @@ def param_assignment(test_step):
 def formats_and_imports(openai_api_key, code_to_format):
 	model = ChatOpenAI(model="gpt-4o-mini", openai_api_key=openai_api_key)
 	response = model.invoke(automation_prompt.format_prompt + code_to_format)
-	return response.content
+	# output typescript format
+	return response.content.replace("```javascript", "```typescript")
 
 
 def single_step_agent(test_step, api_key):
