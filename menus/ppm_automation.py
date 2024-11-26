@@ -36,7 +36,7 @@ with editor_col:
 			if not api_key:
 				st.warning("Please input your api key.")
 				st.stop()
-			with st.spinner('AI is thinking, please wait...'):
+			with st.spinner('Processing steps...'):
 				# get Answer here
 				try:
 					test_case = automation_agent.write_ppm_automation(test_steps, api_key)

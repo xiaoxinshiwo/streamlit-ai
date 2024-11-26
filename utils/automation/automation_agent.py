@@ -1,6 +1,7 @@
 import os
 import re
 import time
+import streamlit as st
 from itertools import chain
 from typing import Sequence, Type, List
 
@@ -24,7 +25,10 @@ def write_ppm_automation(test_steps, api_key):
 	});
 	"""
 	code_lines = []
+	placeholder = st.empty()
 	for step in steps:
+		with placeholder.container():
+			st.write(f"`{step}`")
 		code_lines.append(f"// {step}")
 		var1, var2 = param_assignment(test_step=step)
 		code_line = single_step_agent(var2, api_key)
@@ -32,9 +36,14 @@ def write_ppm_automation(test_steps, api_key):
 			code_line = var1 + code_line
 		code_lines.append(code_line)
 	code_to_format = code_format.replace('CODE_BLOCK', "\n".join(code_lines))
+	with placeholder.container():
+		st.write(f"`Last step, organize imports and formatting`")
+	final_code = formats_and_imports(api_key, code_to_format)
 	time_end = time.time()
-	total_cost = 'Total cost: `{:.3f} ms` \n'.format((time_end - time_begin) * 1000.0)
-	return total_cost + formats_and_imports(api_key, code_to_format)
+	total_cost = '🎉Test case generated successfully! Total cost: `{:.3f} ms` \n'.format((time_end - time_begin) * 1000.0)
+	with placeholder.container():
+		st.write(total_cost)
+	return final_code
 
 
 def param_assignment(test_step):
