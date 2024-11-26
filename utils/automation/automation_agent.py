@@ -96,7 +96,7 @@ def single_step_agent(test_step, api_key):
 		response = agent_executor.invoke({"input": automation_prompt.auto_prompt + test_step})
 	except Exception as error:
 		print(error)
-		response = {'output': f"// Note Generate test case failed, will skip it."}
+		response = {'output': f"// Note! Generate test case failed, will skip it."}
 	return response['output']
 
 
