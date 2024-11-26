@@ -37,7 +37,7 @@ def write_ppm_automation(test_steps, api_key):
 		code_lines.append(code_line)
 	code_to_format = code_format.replace('CODE_BLOCK', "\n".join(code_lines))
 	with placeholder.container():
-		st.write(f"`Last step, organize imports and formatting`")
+		st.write(f"`Last step, organize imports and formatting.`")
 	final_code = formats_and_imports(api_key, code_to_format)
 	time_end = time.time()
 	total_cost = '🎉Test case generated successfully! Total cost: `{:.3f} ms` \n'.format((time_end - time_begin) * 1000.0)
